@@ -32,4 +32,9 @@ public class Shot extends DrinkDispenserObject{
 
         return Double.toString(shotsRemaining);
     }
+
+    @Override
+    public String toString(){
+        return String.format("{name: %s, amountOfLiquid: %s, amountDispersing: %s}", getName(), getAmountOfLiquid(), getAmountDispersing());
+    }
 }

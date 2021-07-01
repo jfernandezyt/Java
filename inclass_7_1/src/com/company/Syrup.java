@@ -7,12 +7,12 @@ public class Syrup extends DrinkDispenserObject{
     }
 
     public void  dispense(double amountDispensing){
-        super.setAmountOfLiquid(super.getAmountOfLiquid() - amountDispensing);
+        super.setAmountOfLiquid(getAmountOfLiquid() - amountDispensing);
     }
 
     @Override
     public String toString(){
-        return String.format("{name: %s, amountOfLiquid: %s}", getName(), super.getAmountOfLiquid());
+        return String.format("{name: %s, amountOfLiquid: %s}", getName(), getAmountOfLiquid());
     }
 
 }
