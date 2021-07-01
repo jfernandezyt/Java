@@ -28,10 +28,13 @@ public class DrinkDispenser {
     public void serveDrink(String size, int syrupIndex){
         if(size.equals("small")){
             System.out.println(small.getVolumePerCup() + " " + listOfSyrups.get(syrupIndex).getName());
+            listOfSyrups.get(syrupIndex).dispense(12.0);
         }else if(size.equals("medium")){
             System.out.println(medium.getVolumePerCup() + " " + listOfSyrups.get(syrupIndex).getName());
+            listOfSyrups.get(syrupIndex).dispense(24.0);
         }else if(size.equals("large")){
             System.out.println(large.getVolumePerCup() + " " + listOfSyrups.get(syrupIndex).getName());
+            listOfSyrups.get(syrupIndex).dispense(32.0);
         }else{
             System.out.println("Not a valid size");
         }
@@ -43,29 +46,32 @@ public class DrinkDispenser {
             if(small.getQuantity() < 1 || Double.parseDouble(temp.getVolume()) < 1){
                 System.out.println("failed");
             }else{
-                for(int i = 0; i < shotCount; i++){
+                for(int i = 0; i < shotCount - 1; i++){
                     temp.dispense();
                 }
-                System.out.println(small.getVolumePerCup() + " " + temp.getName() + " " + listOfSyrups.get(syrupIndex).getName());
+                System.out.println(small.getVolumePerCup() + " " + temp.dispense() + " " + listOfSyrups.get(syrupIndex).getName());
+                listOfSyrups.get(syrupIndex).dispense(12.0);
             }
 
         }else if(size.equals("medium")){
             if(medium.getQuantity() < 1 || Double.parseDouble(temp.getVolume()) < 1){
                 System.out.println("failed");
             }else{
-                for(int i = 0; i < shotCount; i++){
+                for(int i = 0; i < shotCount - 1; i++){
                     temp.dispense();
                 }
-                System.out.println(medium.getVolumePerCup() + " " + temp.getName() + " " + listOfSyrups.get(syrupIndex).getName());
+                System.out.println(medium.getVolumePerCup() + " " + temp.dispense() + " " + listOfSyrups.get(syrupIndex).getName());
+                listOfSyrups.get(syrupIndex).dispense(24.0);
             }
         }else if(size.equals("large")){
             if(large.getQuantity() < 1 || Double.parseDouble(temp.getVolume()) < 1){
                 System.out.println("failed");
             }else{
-                for(int i = 0; i < shotCount; i++){
+                for(int i = 0; i < shotCount - 1; i++){
                     temp.dispense();
                 }
-                System.out.println(large.getVolumePerCup() + " " + temp.getName() + " " + listOfSyrups.get(syrupIndex).getName());
+                System.out.println(large.getVolumePerCup() + " " + temp.dispense() + " " + listOfSyrups.get(syrupIndex).getName());
+                listOfSyrups.get(syrupIndex).dispense(32.0);
             }
         }
 
