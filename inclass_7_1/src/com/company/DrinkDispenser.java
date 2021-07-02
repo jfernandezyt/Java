@@ -1,5 +1,7 @@
 package com.company;
 
+import java.sql.Array;
+import java.util.ArrayList;
 import java.util.List;
 
 public class DrinkDispenser {
@@ -83,35 +85,35 @@ public class DrinkDispenser {
 
 
     }
-    public int[] lowSyrups(double vol){
-        int[] tempArray = new int[listOfSyrups.size()];
+    public List<Integer> lowSyrups(double vol){
+        List<Integer> tempList = new ArrayList<Integer>();
         int i = 0;
         int j = 0;
 
         for (Syrup syrup: listOfSyrups) {
             if (syrup.getAmountOfLiquid() < vol){
-                tempArray[i] = j;
+                tempList.add(j);
                 i++;
             }
             j++;
         }
-        return tempArray;
+        return tempList;
 
     }
 
-    public int[] lowShot(int shots){
-        int[] tempArray = new int[listOfShots.size()];
+    public List<Integer> lowShot(int shots){
+        List<Integer> tempList = new ArrayList<Integer>();
         int i = 0;
         int j = 0;
 
         for (Shot shot: listOfShots) {
             if (Double.parseDouble(shot.getVolume()) < shots){
-                tempArray[i] = j;
+                tempList.add(j);
                 i++;
             }
             j++;
         }
-        return tempArray;
+        return tempList;
 
     }
 
