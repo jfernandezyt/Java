@@ -9,10 +9,6 @@ public class CupHolder {
         this.quantity = quantity;
     }
 
-    public double getVolumePerCup() {
-        return volumePerCup;
-    }
-
     public double getQuantity() {
         return quantity;
     }

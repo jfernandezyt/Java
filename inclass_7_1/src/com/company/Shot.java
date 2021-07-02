@@ -1,7 +1,7 @@
 package com.company;
 
 public class Shot extends DrinkDispenserObject{
-    private double amountDispersing;
+    private final double amountDispersing;
 
     public Shot(String name, double amountOfLiquid){
         super(name, amountOfLiquid);
@@ -10,10 +10,6 @@ public class Shot extends DrinkDispenserObject{
 
     public double getAmountDispersing() {
         return amountDispersing;
-    }
-
-    public void setAmountDispersing(double amountDispersing) {
-        this.amountDispersing = amountDispersing;
     }
 
     public String dispense(){

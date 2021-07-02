@@ -17,24 +17,28 @@ public class DrinkDispenser {
         this.large = large;
     }
 
-    public List<Syrup> getListOfSyrups(){
-        return listOfSyrups;
-    }
-
-    public List<Shot> getListOfShots(){
-        return listOfShots;
-    }
-
     public void serveDrink(double size, int syrupIndex){
         if(size == 12.0){
-            System.out.println(small.dispenseCup() + " " + listOfSyrups.get(syrupIndex).getName());
-            listOfSyrups.get(syrupIndex).dispense(size);
+            if(small.getQuantity() < 1 || listOfSyrups.get(syrupIndex).getAmountOfLiquid() < 1){
+                System.out.println("failed");
+            }else {
+                System.out.println(small.dispenseCup() + " " + listOfSyrups.get(syrupIndex).getName());
+                listOfSyrups.get(syrupIndex).dispense(size);
+            }
         }else if(size == 24.0){
-            System.out.println(medium.dispenseCup() + " " + listOfSyrups.get(syrupIndex).getName());
-            listOfSyrups.get(syrupIndex).dispense(size);
+            if(medium.getQuantity() < 1 || listOfSyrups.get(syrupIndex).getAmountOfLiquid() < 1){
+                System.out.println("failed");
+            }else {
+                System.out.println(medium.dispenseCup() + " " + listOfSyrups.get(syrupIndex).getName());
+                listOfSyrups.get(syrupIndex).dispense(size);
+            }
         }else if(size == 32.0){
-            System.out.println(large.dispenseCup() + " " + listOfSyrups.get(syrupIndex).getName());
-            listOfSyrups.get(syrupIndex).dispense(size);
+            if(large.getQuantity() < 1 || listOfSyrups.get(syrupIndex).getAmountOfLiquid() < 1){
+                System.out.println("failed");
+            }else {
+                System.out.println(large.dispenseCup() + " " + listOfSyrups.get(syrupIndex).getName());
+                listOfSyrups.get(syrupIndex).dispense(size);
+            }
         }else{
             System.out.println("Not a valid size");
         }
@@ -43,7 +47,7 @@ public class DrinkDispenser {
     public void serveDrink(double size, int syrupIndex, int shotIndex, int shotCount){
         Shot temp = listOfShots.get(shotIndex);
         if(size == 12.0){
-            if(small.getQuantity() < 1 || Double.parseDouble(temp.getVolume()) < 1){
+            if(small.getQuantity() < 1 || Double.parseDouble(temp.getVolume()) < 1 || listOfSyrups.get(syrupIndex).getAmountOfLiquid() < 1){
                 System.out.println("failed");
             }else{
                 for(int i = 0; i < shotCount - 1; i++){
@@ -54,7 +58,7 @@ public class DrinkDispenser {
             }
 
         }else if(size == 24.0){
-            if(medium.getQuantity() < 1 || Double.parseDouble(temp.getVolume()) < 1){
+            if(medium.getQuantity() < 1 || Double.parseDouble(temp.getVolume()) < 1 || listOfSyrups.get(syrupIndex).getAmountOfLiquid() < 1){
                 System.out.println("failed");
             }else{
                 for(int i = 0; i < shotCount - 1; i++){
@@ -64,7 +68,7 @@ public class DrinkDispenser {
                 listOfSyrups.get(syrupIndex).dispense(size);
             }
         }else if(size == 32.0){
-            if(large.getQuantity() < 1 || Double.parseDouble(temp.getVolume()) < 1){
+            if(large.getQuantity() < 1 || Double.parseDouble(temp.getVolume()) < 1 || listOfSyrups.get(syrupIndex).getAmountOfLiquid() < 1){
                 System.out.println("failed");
             }else{
                 for(int i = 0; i < shotCount - 1; i++){

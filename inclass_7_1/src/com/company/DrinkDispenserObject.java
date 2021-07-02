@@ -5,9 +5,6 @@ public class DrinkDispenserObject {
     private String name;
     private double amountOfLiquid;
 
-    public DrinkDispenserObject(){
-
-    }
     public DrinkDispenserObject(String name, double amountOfLiquid){
         this.name = name;
         this.amountOfLiquid = amountOfLiquid;

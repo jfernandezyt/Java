@@ -7,10 +7,6 @@ public class Main {
 
     public static void main(String[] args) {
 	// write your code here
-        List<Syrup> listOfSyrups = new ArrayList<Syrup>();
-        List<Shot> listOfShots = new ArrayList<Shot>();
-        CupHolder cupHolder1 = new CupHolder(12, 3);
-        CupHolder cupHolder2 = new CupHolder(24, 5);
-        CupHolder cupHolder3 = new CupHolder(32, 2);
+        DrinkDispenser drinkDispenser = new DrinkDispenser(new ArrayList<Syrup>(), new ArrayList<Shot>(), new CupHolder(12, 3), new CupHolder(24, 5), new CupHolder(32, 2));
     }
 }
