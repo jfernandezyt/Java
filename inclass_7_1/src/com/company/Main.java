@@ -41,7 +41,7 @@ public class Main {
         drinkDispenser.serveDrink("Large", 3);
 
         drinkDispenser.large.refill(20);
-
+        System.out.println();
         System.out.println(drinkDispenser.large);
 
 
