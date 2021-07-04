@@ -1,36 +1,36 @@
 package com.company;
 
-public class Shot extends DrinkDispenserObject{
-    private final double amountDispersing;
+public class Shot{
+    private String flavorName;
+    private int currentLiquidAmount;
+    private final int amountDispersing;
 
-    public Shot(String name, double amountOfLiquid){
-        super(name, amountOfLiquid);
-        this.amountDispersing = 10.0;
-    }
-
-    public double getAmountDispersing() {
-        return amountDispersing;
+    public Shot(String flavorName, int currentLiquidAmount){
+        this.flavorName = flavorName;
+        this.currentLiquidAmount = currentLiquidAmount;
+        this.amountDispersing = 10;
     }
 
     public String dispense(){
-        if(super.getAmountOfLiquid() - amountDispersing > 0){
-            super.setAmountOfLiquid(super.getAmountOfLiquid() - amountDispersing);
+        if(getVolume() > 0){
+            currentLiquidAmount -= amountDispersing;
         }else{
+            //System.out.println("Out of " + flavorName + ". No liquid left, please replace");
             return null;
         }
 
-        return getName();
+        return flavorName;
     }
 
 
-    public String getVolume(){
-        double shotsRemaining = super.getAmountOfLiquid() / amountDispersing;
+    public int getVolume(){
+        int shotsRemaining = currentLiquidAmount / amountDispersing;
 
-        return Double.toString(shotsRemaining);
+        return shotsRemaining;
     }
 
     @Override
     public String toString(){
-        return String.format("{name: %s, amountOfLiquid: %s, amountDispersing: %s}", getName(), getAmountOfLiquid(), getAmountDispersing());
+        return String.format("{name: %s, currentLiquidAmount: %s, amountDispersing: %s}", flavorName, currentLiquidAmount, amountDispersing);
     }
 }

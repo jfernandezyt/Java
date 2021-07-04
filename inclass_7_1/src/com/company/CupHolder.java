@@ -1,10 +1,10 @@
 package com.company;
 
 public class CupHolder {
-    private final int volumePerCup;
+    private final String volumePerCup;
     private int quantity;
 
-    public CupHolder(int volumePerCup, int quantity){
+    public CupHolder(String volumePerCup, int quantity){
         this.volumePerCup = volumePerCup;
         this.quantity = quantity;
     }
@@ -13,7 +13,7 @@ public class CupHolder {
         return quantity;
     }
 
-    public double dispenseCup(){
+    public String dispenseCup(){
         quantity -= 1;
         return volumePerCup;
     }
