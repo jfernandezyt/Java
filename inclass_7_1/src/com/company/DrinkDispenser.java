@@ -46,7 +46,7 @@ public class DrinkDispenser {
     public void serveDrink(String size, int syrupIndex, int shotIndex, int shotCount) {
         Shot shot = listOfShots.get(shotIndex);
         if (size.equals("Small")) {
-            if (small.getQuantity() < 1 || shot.getVolume() < 1) {
+            if (small.getQuantity() < 1 || shot.getVolume() < shotCount) {
                 System.out.println("failed");
             } else {
                 for (int i = 0; i < shotCount - 1; i++) {
@@ -60,7 +60,7 @@ public class DrinkDispenser {
             }
 
         } else if (size.equals("Medium")) {
-            if (medium.getQuantity() < 1 || shot.getVolume() < 1) {
+            if (medium.getQuantity() < 1 || shot.getVolume() < shotCount) {
                 System.out.println("failed");
             } else {
                 for (int i = 0; i < shotCount - 1; i++) {
@@ -74,7 +74,7 @@ public class DrinkDispenser {
 
             }
         } else if (size.equals("Large")) {
-            if (large.getQuantity() < 1 || shot.getVolume() < 1) {
+            if (large.getQuantity() < 1 || shot.getVolume() < shotCount) {
                 System.out.println("failed");
             } else {
                 for (int i = 0; i < shotCount - 1; i++) {
