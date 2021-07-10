@@ -11,14 +11,16 @@ public class Main {
 
     public static void main(String[] args) {
 	// write your code here
+        final int  MONTHS_IN_YEAR = 12;
+        final int  PERCENT = 100;
         Scanner scanner = new Scanner(System.in);
         try{
             System.out.print("Principal: ");
             double principal = scanner.nextDouble();
             System.out.print("Annual Interest Rate: ");
-            float interest = ((scanner.nextFloat() / 100) / 12);
+            float interest = ((scanner.nextFloat() / PERCENT) / MONTHS_IN_YEAR);
             System.out.print("Period: ");
-            int period = (scanner.nextInt() * 12);
+            int period = (scanner.nextInt() * MONTHS_IN_YEAR);
 
             double numerator = interest * (Math.pow(1 + interest, period));
             double denominator = Math.pow(1 + interest, period) - 1;
