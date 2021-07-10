@@ -8,28 +8,80 @@ import java.text.NumberFormat;
 import java.util.Scanner;
 
 public class Main {
+    final static byte MONTHS_IN_YEAR = 12;
+    final static byte PERCENT = 100;
 
     public static void main(String[] args) {
-	// write your code here
-        final int  MONTHS_IN_YEAR = 12;
-        final int  PERCENT = 100;
-        Scanner scanner = new Scanner(System.in);
-        try{
-            System.out.print("Principal: ");
-            double principal = scanner.nextDouble();
-            System.out.print("Annual Interest Rate: ");
-            float interest = ((scanner.nextFloat() / PERCENT) / MONTHS_IN_YEAR);
-            System.out.print("Period: ");
-            int period = (scanner.nextInt() * MONTHS_IN_YEAR);
+        // write your code here
+        double principal = readNumber("Principal: ", 1_000.00, 1_000_000.00);
+        float annualInterest = (float) readNumber("Annual Interest Rate: ", 1, 30);
+        byte years = (byte) readNumber("Period: ", 1, 30);
 
-            double numerator = interest * (Math.pow(1 + interest, period));
-            double denominator = Math.pow(1 + interest, period) - 1;
+        printMortgage(principal, annualInterest, years);
+        printPaymentSchedule(principal, annualInterest, years);
+    }
 
-            double mortgage = principal * (numerator/denominator);
 
-            System.out.print("\nMortgage: " + NumberFormat.getCurrencyInstance().format(mortgage));
-        }catch(Exception e){
-            System.out.println(e.getMessage());
+
+    private static void printPaymentSchedule(double principal, float annualInterest, byte years) {
+        double remainingBalance;
+        System.out.print("\n\nPAYMENT SCHEDULE\n__________________\n");
+
+        for (short month = 1; month <= calculateNumberOfPayments(years); month++) {
+            remainingBalance = calculatePaymentSchedule(principal, annualInterest, years, month);
+            System.out.println(NumberFormat.getCurrencyInstance().format(remainingBalance));
         }
+    }
+
+    private static void printMortgage(double principal, float annualInterest, byte years) {
+        System.out.print("\nMORTGAGE\n__________________\n");
+        System.out.print("\nMonthly Payments: " + NumberFormat.getCurrencyInstance().format(calculateMortgage(principal, annualInterest, years)));
+    }
+
+    public static double calculateMortgage(double principal, float annualInterest, byte years) {
+
+        short numberOfPayments = calculateNumberOfPayments(years);
+        float monthlyInterest = calculateMonthlyInterest(annualInterest);
+        double numerator = monthlyInterest * (Math.pow(1 + monthlyInterest, numberOfPayments));
+        double denominator = Math.pow(1 + monthlyInterest, numberOfPayments) - 1;
+
+        return (principal * (numerator / denominator));
+    }
+
+    public static double calculatePaymentSchedule(double principal, float annualInterest, byte years, int numberOfPaymentsMade) {
+        short numberOfPayments = calculateNumberOfPayments(years);
+        float monthlyInterest = calculateMonthlyInterest(annualInterest);
+
+        return principal * (
+                ((Math.pow(1 + monthlyInterest, numberOfPayments))
+                        - (Math.pow(1 + monthlyInterest, numberOfPaymentsMade)))
+                        / (Math.pow(1 + monthlyInterest, numberOfPayments) - 1)
+        );
+    }
+
+    public static short calculateNumberOfPayments(byte years) {
+        return (short) (years * MONTHS_IN_YEAR);
+    }
+
+    public static float calculateMonthlyInterest(float annualInterest) {
+        return ((annualInterest / PERCENT) / MONTHS_IN_YEAR);
+    }
+
+    public static double readNumber(String question, double min, double max) {
+        Scanner scanner = new Scanner(System.in);
+        double temp = 0.0;
+        while (true) {
+            System.out.print(question);
+            try {
+                temp = scanner.nextDouble();
+                if (temp >= min && temp <= max)
+                    break;
+                else
+                    System.out.print("Enter a value between " + min + " and " + max + "\n");
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+        }
+        return temp;
     }
 }
