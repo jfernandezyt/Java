@@ -40,9 +40,9 @@ public class Dog extends Animal{
         this.snoutLength = snoutLength;
     }
 
-    public String toString(){
-        return String.format("{legs: %s, size: %s, isFixed: %s, name: %s, furColor: %s, breed: %s, snoutLength: %s, length: %s}", getLegs(), getSize(), isFixed(), getName(), getFurColor(), getBreed(), getSnoutLength(), getLength());
-    }
+//    public String toString(){
+//        return String.format("{legs: %s, size: %s, isFixed: %s, name: %s, furColor: %s, breed: %s, snoutLength: %s, length: %s}", getLegs(), getSize(), isFixed(), getName(), getFurColor(), getBreed(), getSnoutLength(), getLength());
+//    }
 }
 
 /// private int legs;
