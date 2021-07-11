@@ -1,7 +1,7 @@
 package com.company;
 
-public class Syrup{
-    private String syrupName;
+public class Syrup {
+    private final String syrupName;
     private int currentAmountOfLiquid;
 
     public Syrup(String syrupName, int currentAmountOfLiquid) {
@@ -10,19 +10,23 @@ public class Syrup{
 
     }
 
-    public String  dispense(int amountDispensing){
+    public String dispense(int amountDispensing) {
 
-        if( currentAmountOfLiquid - amountDispensing > 0){
+        if (currentAmountOfLiquid - amountDispensing > 0)
             currentAmountOfLiquid -= amountDispensing;
-        }
+
         return syrupName;
     }
-    public int getCurrentAmountOfLiquid(){
+
+    public int getCurrentAmountOfLiquid() {
         return currentAmountOfLiquid;
+    }
+    public String getName() {
+        return syrupName;
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         return String.format("{name: %s, amountOfLiquid: %s}", syrupName, currentAmountOfLiquid);
     }
 

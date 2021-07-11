@@ -9,7 +9,7 @@ public class CupHolder {
         this.quantity = quantity;
     }
 
-    public double getQuantity() {
+    public int getQuantity() {
         return quantity;
     }
 

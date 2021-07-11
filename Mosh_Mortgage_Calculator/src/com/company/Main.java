@@ -12,7 +12,6 @@ public class Main {
     final static byte PERCENT = 100;
 
     public static void main(String[] args) {
-        // write your code here
         double principal = readNumber("Principal: ", 1_000.00, 1_000_000.00);
         float annualInterest = (float) readNumber("Annual Interest Rate: ", 1, 30);
         byte years = (byte) readNumber("Period: ", 1, 30);
@@ -69,7 +68,7 @@ public class Main {
 
     public static double readNumber(String question, double min, double max) {
         Scanner scanner = new Scanner(System.in);
-        double temp = 0.0;
+        double temp;
         while (true) {
             System.out.print(question);
             try {

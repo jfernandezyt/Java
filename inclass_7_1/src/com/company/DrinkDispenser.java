@@ -1,8 +1,9 @@
 package com.company;
 
-import java.sql.Array;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class DrinkDispenser {
     private List<Syrup> listOfSyrups;
@@ -11,110 +12,70 @@ public class DrinkDispenser {
     public CupHolder medium;
     public CupHolder large;
 
-    public DrinkDispenser(List<Syrup> listOfSyrups, List<Shot> listOfShots, CupHolder small, CupHolder medium, CupHolder large) {
-        this.listOfSyrups = listOfSyrups;
-        this.listOfShots = listOfShots;
+    public DrinkDispenser(CupHolder small, CupHolder medium, CupHolder large) {
+        this.listOfSyrups = new ArrayList<>();
+        this.listOfShots = new ArrayList<>();
         this.small = small;
         this.medium = medium;
         this.large = large;
     }
 
+    public void serve(CupHolder size, int syrupIndex, int amountDispensing) {
+        if (size.getQuantity() > 0)
+            System.out.println(size.dispenseCup() + " " + listOfSyrups.get(syrupIndex).dispense(amountDispensing));
+        else
+            System.out.println("failed.");
+    }
+
+    public void serve(CupHolder size, int syrupIndex, int amountDispensing, Shot shot, int shotCount) {
+        if (size.getQuantity() > 0 && shot.getVolume() >= shotCount) {
+            for (int i = 1; i <= shotCount; i++) {
+                if (i == shotCount) {
+                    System.out.println(size.dispenseCup() + " " + shot.dispense() + " " + listOfSyrups.get(syrupIndex).dispense(amountDispensing));
+                    break;
+                }
+                shot.dispense();
+            }
+        } else
+            System.out.println("failed.");
+    }
+
     public void serveDrink(String size, int syrupIndex) {
-        if (size.equals("Small")) {
-            if (small.getQuantity() < 1) {
-                System.out.println("failed");
-            } else {
-                System.out.println(small.dispenseCup() + " " + listOfSyrups.get(syrupIndex).dispense(5));
-            }
-        } else if (size.equals("Medium")) {
-            if (medium.getQuantity() < 1) {
-                System.out.println("failed");
-            } else {
-                System.out.println(medium.dispenseCup() + " " + listOfSyrups.get(syrupIndex).dispense(8));
-            }
-        } else if (size.equals("Large")) {
-            if (large.getQuantity() < 1) {
-                System.out.println("failed");
-            } else {
-                System.out.println(large.dispenseCup() + " " + listOfSyrups.get(syrupIndex).dispense(12));
-            }
-        } else {
-            System.out.println("Not a valid size");
+        switch (size) {
+            case "Small" -> serve(small, syrupIndex, 12);
+            case "Medium" -> serve(medium, syrupIndex, 16);
+            case "Large" -> serve(large, syrupIndex, 24);
+            default -> System.out.println("Not a valid size.");
         }
     }
 
     public void serveDrink(String size, int syrupIndex, int shotIndex, int shotCount) {
-        Shot shot = listOfShots.get(shotIndex);
-        if (size.equals("Small")) {
-            if (small.getQuantity() < 1 || shot.getVolume() < shotCount) {
-                System.out.println("failed");
-            } else {
-                for (int i = 0; i < shotCount - 1; i++) {
-                    shot.dispense();
-                }
-                if (shot.getVolume() - 1 > 0) {
-                    System.out.println(medium.dispenseCup() + " " + shot.dispense() + " " + listOfSyrups.get(syrupIndex).dispense(8));
-                } else {
-                    System.out.println("failed");
-                }
-            }
-
-        } else if (size.equals("Medium")) {
-            if (medium.getQuantity() < 1 || shot.getVolume() < shotCount) {
-                System.out.println("failed");
-            } else {
-                for (int i = 0; i < shotCount - 1; i++) {
-                    shot.dispense();
-                }
-                if (shot.getVolume() - 1 > 0) {
-                    System.out.println(medium.dispenseCup() + " " + shot.dispense() + " " + listOfSyrups.get(syrupIndex).dispense(8));
-                } else {
-                    System.out.println("failed");
-                }
-
-            }
-        } else if (size.equals("Large")) {
-            if (large.getQuantity() < 1 || shot.getVolume() < shotCount) {
-                System.out.println("failed");
-            } else {
-                for (int i = 0; i < shotCount - 1; i++) {
-                    shot.dispense();
-                }
-                if (shot.getVolume() - 1 > 0) {
-                    System.out.println(medium.dispenseCup() + " " + shot.dispense() + " " + listOfSyrups.get(syrupIndex).dispense(8));
-                } else {
-                    System.out.println("failed");
-                }
-            }
-        } else {
-            System.out.println("Not a valid size");
+        switch (size) {
+            case "Small" -> serve(small, syrupIndex, 12, listOfShots.get(shotIndex), shotCount);
+            case "Medium" -> serve(medium, syrupIndex, 16, listOfShots.get(shotIndex), shotCount);
+            case "Large" -> serve(large, syrupIndex, 24, listOfShots.get(shotIndex), shotCount);
+            default -> System.out.println("Not a valid size.");
         }
-
-
     }
 
-    public List<Integer> lowSyrups(double vol) {
-        List<Integer> needToReplaceList = new ArrayList<Integer>();
+    public Map<String, Integer> lowSyrups(double vol) {
+        Map<String, Integer> needToReplaceList = new HashMap<String, Integer>();
 
-        for (int i = 0; i < listOfSyrups.size(); i++) {
-            if (listOfSyrups.get(i).getCurrentAmountOfLiquid() < vol) {
-                needToReplaceList.add(i);
-            }
-        }
+        for (int i = 0; i < listOfSyrups.size(); i++)
+            if (listOfSyrups.get(i).getCurrentAmountOfLiquid() < vol)
+                needToReplaceList.put(listOfSyrups.get(i).getName(), i);
+
         return needToReplaceList;
-
     }
 
-    public List<Integer> lowShot(int shots) {
-        List<Integer> needToReplaceList = new ArrayList<Integer>();
+    public Map<String, Integer> lowShot(int shots) {
+        Map<String, Integer> needToReplaceList = new HashMap<String, Integer>();
 
-        for (int i = 0; i < listOfShots.size(); i++) {
-            if (listOfShots.get(i).getVolume() < shots) {
-                needToReplaceList.add(i);
-            }
-        }
+        for (int i = 0; i < listOfShots.size(); i++)
+            if (listOfShots.get(i).getVolume() < shots)
+                needToReplaceList.put(listOfShots.get(i).getName(), i);
+
         return needToReplaceList;
-
     }
 
     public void addSyrup(Syrup newSyrup) {
