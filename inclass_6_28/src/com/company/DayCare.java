@@ -11,10 +11,10 @@ public class DayCare {
         for (Animal animal: list ) {
             if(animal instanceof Dog){
                 System.out.println("This is a Dog !");
-                System.out.println(animal);
+                animal.speak();
             }else if(animal instanceof Cat){
                 System.out.println("This is a Cat !");
-                System.out.println(animal);
+                animal.speak();
 
             }
         }

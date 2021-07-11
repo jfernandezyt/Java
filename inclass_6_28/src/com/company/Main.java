@@ -17,5 +17,7 @@ public class Main {
         DayCare.displayAnimal(list);
         DayCare.removeAnimal("shorty", list);
         DayCare.displayAnimal(list);
+
+        //DayCare.
     }
 }

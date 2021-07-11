@@ -44,9 +44,9 @@ public class Main {
         Map<String, Integer> replaceShotsList = drinkDispenser.lowShot(150);//check all the shots and if they are under 150 it will return a HashMap of the shots needed to be changed
 
         if(replaceShotsList.size() > 0){
-            for (Map.Entry<String, Integer> entry: replaceShotsList.entrySet()) {
+            for (Map.Entry<String, Integer> entry: replaceShotsList.entrySet())
                 drinkDispenser.replaceShot(entry.getValue(), new Shot(entry.getKey(), 150));
-            }
+
         }
 
         /***********************************************************************************************************************************************************/
@@ -54,9 +54,9 @@ public class Main {
         Map<String, Integer> replaceSyrupsList = drinkDispenser.lowSyrups(250);//check all the syrups and if they are under 250 it will return a HashMap of the shots needed to be changed
 
         if(replaceShotsList.size() > 0){
-            for (Map.Entry<String, Integer> entry: replaceSyrupsList.entrySet()) {
+            for (Map.Entry<String, Integer> entry: replaceSyrupsList.entrySet())
                 drinkDispenser.replaceSyrup(entry.getValue(), new Syrup(entry.getKey(), 250));
-            }
+
         }
 
         /**********************************************************************************************************************************************************/

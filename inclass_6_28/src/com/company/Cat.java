@@ -38,12 +38,11 @@ public class Cat extends Animal{
     }
 
     public void speak(){
-        if(!noise.isEmpty()){
+        if(noise == null)
             System.out.println("meeeow");
-
-        }else{
+        else
             System.out.println(noise);
-        }
+
 
     }
 
