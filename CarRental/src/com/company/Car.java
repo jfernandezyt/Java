@@ -1,6 +1,6 @@
 package com.company;
 
-public class Car extends BookingObjects{
+public class Car {
     private final int carId;
     private static int numberOfCars = 0;
     private double costPerDay;
@@ -8,6 +8,10 @@ public class Car extends BookingObjects{
 
 
     public Car() {
+        carId = ++numberOfCars;
+    }
+    public Car(double costPerDay) {
+        this.costPerDay = costPerDay;
         carId = ++numberOfCars;
     }
 

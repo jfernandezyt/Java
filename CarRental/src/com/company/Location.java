@@ -8,36 +8,24 @@ public class Location {
     public Location() {
         locationId = ++numberOfLocations;
     }
+    public Location(Car[] availableCars) {
+        this.availableCars = availableCars;
+        locationId = ++numberOfLocations;
+    }
 
-    public int getLocationId() { return locationId; }
     public Car[] getAvailableCars() { return availableCars; }
 
     public void setAvailableCars(Car[] availableCars) { this.availableCars = availableCars; }
 
     public Booking book(Customer bookingCustomer, Car bookedCar) {
         bookedCar.setIsBooked(true);
-
-        Booking booking = new Booking();
-        booking.setCustomer(bookingCustomer);
-        booking.setCar(bookedCar);
-        booking.setLocationId(this.locationId);
-        booking.setBookingCost(bookingCustomer.getDaysRenting() * bookedCar.getCostPerDay());
-
-        bookingCustomer.setBooking(booking);
-        bookedCar.setBooking(booking);
-
-        return booking;
+        double cost = bookingCustomer.getDaysRenting() * bookedCar.getCostPerDay();
+        return new Booking(bookingCustomer, bookedCar, cost, this.locationId);
     }
 
     public Booking settle(Booking booking) {
-
         booking.setIsSettled(true);
-
         booking.getCar().setIsBooked(false);
-        booking.getCar().getBooking().setIsSettled(true);
-
-        booking.getCustomer().getBooking().setIsSettled(true);
-
         return booking;
     }
 

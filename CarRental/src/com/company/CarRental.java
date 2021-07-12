@@ -7,6 +7,7 @@ public class CarRental {
     private int locations;
     private int carsPerLocation;
     private Location[] allLocations;
+    private int income = 0;
 
     public CarRental() {
 
@@ -30,12 +31,8 @@ public class CarRental {
         return allLocations;
     }
 
-    public void setLocations(int locations) {
-        this.locations = locations;
-    }
-
-    public void setCarsPerLocation(int carsPerLocation) {
-        this.carsPerLocation = carsPerLocation;
+    public void addIncome(int profit) {
+        income += profit;
     }
 
     public void setAllLocations(Location[] allLocations) {
@@ -45,20 +42,12 @@ public class CarRental {
     public void createLocations() {
         if (locations > 0 && carsPerLocation > 0) {
             Location[] locationHolder = new Location[locations];
-
             for (int i = 0; i < locations; i++) {
                 Car[] fleet = new Car[carsPerLocation];
-                Location tempLocation = new Location();
-
                 for (int j = 0; j < carsPerLocation; j++) {
-                    Car tempCar = new Car();
-                    double cost = (j + 1) * 10.0;
-                    tempCar.setCostPerDay(cost);
-                    fleet[j] = tempCar;
-
+                    fleet[j] = new Car(((j + 1) * 10.0));
                 }
-                tempLocation.setAvailableCars(fleet);
-                locationHolder[i] = tempLocation;
+                locationHolder[i] = new Location(fleet);
             }
             setAllLocations(locationHolder);
         }

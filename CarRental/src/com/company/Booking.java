@@ -12,6 +12,13 @@ public class Booking {
     public Booking(){
         bookingId = ++numberOfBookings;
     }
+    public Booking(Customer customer, Car car, double bookingCost, int locationId){
+        this.customer = customer;
+        this.car = car;
+        this.bookingCost = bookingCost;
+        this.locationId = locationId;
+        bookingId = ++numberOfBookings;
+    }
 
     public int getBookingId(){ return bookingId; }
     public Customer getCustomer(){
