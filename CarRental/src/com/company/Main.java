@@ -16,13 +16,7 @@ public class Main {
 
         CarRental rental = new CarRental(numOfLocations, numOfCars);
 
-        int optionChosen = InputCollector.getInputNumber("""
-                    Please enter the method of booking \s
-                    1) for first available
-                    2) for booking by Location id
-                    3) book by car id
-                    4) to settle accounts
-                    0) if you'd like to exit the program):\s""");
+        Navigation.getUserBookingChoice();
 
         while (!sessionDone) {
             Booking booking;
@@ -37,29 +31,27 @@ public class Main {
 
                     booking = rental.bookByFirstAvailable(customer);
                     if (booking != null) {
-                        income += booking.getBookingCost();
+                        rental.addIncome(booking.getBookingCost());
                         bookingsList.add(booking);
-                        Output.printSuccess(customer.getCustomerName());
-                    } else {
-                        Output.printFailure(customer.getCustomerName());
-                    }
+                        Output.printString("You successfully booked your vehicle " + customer.getCustomerName()+ " !");
+                    } else
+                        Output.printString("Unfortunately, there was an error when trying to process your request, please try again.");
+
                 }
                 case 2 -> { //book by location id
                     String customerName = InputCollector.getInputString("Enter the Customer Name");
                     int numberOfDaysRenting = InputCollector.getInputNumber("Alright, " + customerName +" please enter the number of days renting: ");
                     Customer customer = new Customer(customerName, numberOfDaysRenting);
 
-                    locationId = InputCollector.getInputNumber("Please enter the location ID you'd like to book from (between 1 - " + rental.getLocations() + "):");
+                    locationId = InputCollector.getInputNumber("Please enter the location ID you'd like to book from (between 1 - " + rental.getNumberOfLocations() + "):");
                     booking = rental.bookByLocationId(customer, locationId);
                     if (booking != null) {
-                        income += booking.getBookingCost();
+                        rental.addIncome(booking.getBookingCost());
                         bookingsList.add(booking);
-                        Output.printSuccess(customer.getCustomerName());
-                    } else {
-                        InputCollector.printNextLine();
-                        Output.printFailure(customer.getCustomerName());
-                        InputCollector.printNextLine();
-                    }
+                        Output.printString("You successfully booked your vehicle " + customer.getCustomerName()+ " !");
+                    } else
+                        Output.printString("Unfortunately, there was an error when trying to process your request, please try again.");
+
                 }
                 case 3 -> { //book by car id
                     String customerName = InputCollector.getInputString("Enter the Customer Name");
@@ -69,14 +61,12 @@ public class Main {
                     carId = InputCollector.getInputNumber("Please enter the car ID you'd like to book (between 1 - " +  Car.getNumberOfCars() + "): ");
                     booking = rental.bookByCarId(customer, carId);
                     if (booking != null) {
-                        income += booking.getBookingCost();
+                        rental.addIncome(booking.getBookingCost());
                         bookingsList.add(booking);
-                        Output.printSuccess(customer.getCustomerName());
-                    } else {
-                        InputCollector.printNextLine();
-                        Output.printFailure(customer.getCustomerName());
-                        InputCollector.printNextLine();
-                    }
+                        Output.printString("You successfully booked your vehicle " + customer.getCustomerName()+ " !");
+                    } else
+                        Output.printString("Unfortunately, there was an error when trying to process your request, please try again.");
+
                 }
                 case 4 -> {
                     String result;
@@ -97,19 +87,19 @@ public class Main {
                                 if (result != null) {
                                     Output.printString(result);
                                 } else {
-                                    Output.printFailure();
+                                    Output.printString("Unfortunately, there was an error when trying to process your request, please try again.");
                                 }
                             }
                             case 6 -> { //settleByLocationId
-                                locationId = InputCollector.getInputNumber("Please enter the location ID of the location who's accounts you'd like to settle (between 1 - " + rental.getLocations() + "): ");
-                                listResult = rental.settle(bookingsList, locationId);
+                                locationId = InputCollector.getInputNumber("Please enter the location ID of the location who's accounts you'd like to settle (between 1 - " + rental.getNumberOfLocations() + "): ");
+                                listResult = rental.settleByLocationId(bookingsList, locationId);
                                 if (listResult != null) {
                                     Output.printString("You successfully settled the account(s) of:");
                                     for (String tempResult : listResult) {
                                         Output.printString(tempResult);
                                     }
                                 } else {
-                                    Output.printFailure();
+                                    Output.printString("Unfortunately, there was an error when trying to process your request, please try again.");
                                 }
                             }
 
@@ -119,7 +109,7 @@ public class Main {
                                 if (result != null) {
                                     Output.printString(result);
                                 } else {
-                                    Output.printFailure();
+                                    Output.printString("Unfortunately, there was an error when trying to process your request, please try again.");
                                 }
                             }
                             case 8 -> { //settleByCustomerName
@@ -128,18 +118,18 @@ public class Main {
                                 if (result != null) {
                                     Output.printString(result);
                                 } else {
-                                    Output.printFailure();
+                                    Output.printString("Unfortunately, there was an error when trying to process your request, please try again.");
                                 }
                             }
                             case 9 -> { //settleAll
-                                listResult = rental.settle(bookingsList);
+                                listResult = rental.settleAll(bookingsList);
                                 if (listResult != null) {
                                     Output.printString("You successfully settled the account(s) of:");
                                     for (String tempResult : listResult) {
                                         Output.printString(tempResult);
                                     }
                                 } else {
-                                    Output.printFailure();
+                                    Output.printString("Unfortunately, there was an error when trying to process your request, please try again.");
                                 }
                             }
                             default -> { }
@@ -171,7 +161,7 @@ public class Main {
         }
 
         System.out.println("\n\n\n\nThese were the bookings for today.\n");
-        System.out.println("You made a total of: $" + income);
+        System.out.println("You made a total of: $" + rental.getIncome());
         for (Booking booking : bookingsList) {
             System.out.println(booking);
         }

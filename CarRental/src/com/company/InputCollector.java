@@ -4,10 +4,6 @@ import java.util.Scanner;
 
 public class InputCollector {
 
-    public static void printNextLine(){
-        System.out.println();
-    }
-
     public static String getInputString(String prompt){
         Scanner scanner = new Scanner(System.in);
 

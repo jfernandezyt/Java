@@ -3,19 +3,14 @@ package com.company;
 public class Location {
     private final int locationId;
     private static int numberOfLocations = 0;
-    private Car[] availableCars;
+    private final Car[] availableCars;
 
-    public Location() {
-        locationId = ++numberOfLocations;
-    }
     public Location(Car[] availableCars) {
         this.availableCars = availableCars;
         locationId = ++numberOfLocations;
     }
 
     public Car[] getAvailableCars() { return availableCars; }
-
-    public void setAvailableCars(Car[] availableCars) { this.availableCars = availableCars; }
 
     public Booking book(Customer bookingCustomer, Car bookedCar) {
         bookedCar.setIsBooked(true);

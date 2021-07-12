@@ -3,15 +3,13 @@ package com.company;
 public class Booking {
     private final int bookingId;
     private static int numberOfBookings = 0;
-    private Customer customer;
-    private Car car;
-    private double bookingCost;
+    private final Customer customer;
+    private final Car car;
+    private final double bookingCost;
     private boolean isSettled = false;
-    private int locationId;
+    private final int locationId;
 
-    public Booking(){
-        bookingId = ++numberOfBookings;
-    }
+
     public Booking(Customer customer, Car car, double bookingCost, int locationId){
         this.customer = customer;
         this.car = car;
@@ -20,7 +18,6 @@ public class Booking {
         bookingId = ++numberOfBookings;
     }
 
-    public int getBookingId(){ return bookingId; }
     public Customer getCustomer(){
         return customer;
     }
@@ -34,25 +31,14 @@ public class Booking {
         return isSettled;
     }
     public int getLocationId(){ return locationId; }
+    public int getBookingId(){ return bookingId; }
 
-    public void setCustomer(Customer customer){
-        this.customer = customer;
-    }
-    public void setCar(Car car){
-        this.car = car;
-    }
-    public void setBookingCost(double bookingCost) {
-        this.bookingCost = bookingCost;
-    }
     public void setIsSettled(boolean isSettled) {
         this.isSettled = isSettled;
     }
-    public void setLocationId(int locationId){
-        this.locationId = locationId;
-    }
 
     public String toString(){
-        return String.format("{bookingId: %s, customer: %s, car: %s, bookingCost: %s, isSettled: %s, locationId: %s}", getBookingId(), getCustomer(), getCar(), getBookingCost(), getIsSettled(), getLocationId());
+        return String.format("{bookingId: %s, customer: %s, car: %s, bookingCost: %s, isSettled: %s, locationId: %s}", bookingId, customer, car, bookingCost, isSettled, locationId);
     }
 
 }
