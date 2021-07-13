@@ -16,24 +16,6 @@ public class CarRental {
         createLocations();
     }
 
-    public int getNumberOfLocations() {
-        return numberOfLocations;
-    }
-
-    private Location[] getAllLocations() {
-        return allLocations;
-    }
-
-    public void addIncome(double profit) {
-        income += profit;
-    }
-    public double getIncome(){
-        return income;
-    }
-
-    private void setAllLocations(Location[] allLocations) {
-        this.allLocations = allLocations;
-    }
 
     private void createLocations() {
         if (numberOfLocations > 0 && carsPerLocation > 0) {
@@ -161,6 +143,23 @@ public class CarRental {
                     settledBooking.getBookingCost(),
                     settledBooking.getCustomer().getDaysRenting(),
                     settledBooking.getCar().getCostPerDay());
+    }
+
+    public int getNumberOfLocations() {
+        return numberOfLocations;
+    }
+    private Location[] getAllLocations() {
+        return allLocations;
+    }
+    public double getIncome(){
+        return income;
+    }
+
+    public void setIncome(double profit) {
+        income += profit;
+    }
+    private void setAllLocations(Location[] allLocations) {
+        this.allLocations = allLocations;
     }
 
     public String toString() {

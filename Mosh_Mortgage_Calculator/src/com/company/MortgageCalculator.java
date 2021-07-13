@@ -1,8 +1,12 @@
 package com.company;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MortgageCalculator {
-    final static byte MONTHS_IN_YEAR = 12;
-    final static byte PERCENT = 100;
+    private final static byte MONTHS_IN_YEAR = 12;
+    private final static byte PERCENT = 100;
+
     private final double principal;
     private final float annualInterest;
     private final byte years;
@@ -32,6 +36,15 @@ public class MortgageCalculator {
                         - (Math.pow(1 + monthlyInterest, numberOfPaymentsMade)))
                         / (Math.pow(1 + monthlyInterest, numberOfPayments) - 1)
         );
+    }
+
+    public List<Double> getRemainingBalances(){
+        List<Double> list = new ArrayList<>();
+
+        for (short month = 1; month <= calculateNumberOfPayments(); month++)
+            list.add(calculatePaymentSchedule(month));
+
+        return list;
     }
 
     public short calculateNumberOfPayments() {

@@ -31,7 +31,7 @@ public class Main {
 
                     booking = rental.bookByFirstAvailable(customer);
                     if (booking != null) {
-                        rental.addIncome(booking.getBookingCost());
+                        rental.setIncome(booking.getBookingCost());
                         bookingsList.add(booking);
                         Output.printString("You successfully booked your vehicle " + customer.getCustomerName()+ " !");
                     } else
@@ -46,7 +46,7 @@ public class Main {
                     locationId = InputCollector.getInputNumber("Please enter the location ID you'd like to book from (between 1 - " + rental.getNumberOfLocations() + "):");
                     booking = rental.bookByLocationId(customer, locationId);
                     if (booking != null) {
-                        rental.addIncome(booking.getBookingCost());
+                        rental.setIncome(booking.getBookingCost());
                         bookingsList.add(booking);
                         Output.printString("You successfully booked your vehicle " + customer.getCustomerName()+ " !");
                     } else
@@ -61,7 +61,7 @@ public class Main {
                     carId = InputCollector.getInputNumber("Please enter the car ID you'd like to book (between 1 - " +  Car.getNumberOfCars() + "): ");
                     booking = rental.bookByCarId(customer, carId);
                     if (booking != null) {
-                        rental.addIncome(booking.getBookingCost());
+                        rental.setIncome(booking.getBookingCost());
                         bookingsList.add(booking);
                         Output.printString("You successfully booked your vehicle " + customer.getCustomerName()+ " !");
                     } else

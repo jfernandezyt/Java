@@ -10,7 +10,6 @@ public class Location {
         locationId = ++numberOfLocations;
     }
 
-    public Car[] getAvailableCars() { return availableCars; }
 
     public Booking book(Customer bookingCustomer, Car bookedCar) {
         bookedCar.setIsBooked(true);
@@ -24,4 +23,5 @@ public class Location {
         return booking;
     }
 
+    public Car[] getAvailableCars() { return availableCars; }
 }

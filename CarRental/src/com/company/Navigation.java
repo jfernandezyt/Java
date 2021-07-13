@@ -5,9 +5,9 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Navigation {
+    private static Scanner scanner = new Scanner(System.in);
 
     public static void getUserBookingChoice() {
-        Scanner scanner = new Scanner(System.in);
         System.out.print("""
                 Please enter the method of booking \s
                 1) for first available
@@ -19,7 +19,6 @@ public class Navigation {
     }
 
     public static void getUserSettlingChoice() {
-        Scanner scanner = new Scanner(System.in);
         System.out.print("""
                 Please choose the method of settling\s
                 5) to settle the first booking,\s
@@ -78,7 +77,7 @@ public class Navigation {
         }
 
         if (booking.getBookingId()) {
-            rental.addIncome(booking.getBookingCost());
+            rental.setIncome(booking.getBookingCost());
             bookingsList.add(booking);
             Output.printString("You successfully booked your vehicle " + customer.getCustomerName() + " !");
         } else
