@@ -21,4 +21,8 @@ public class Passenger {
     public String toString(){
         return String.format("{name: %s, weight:%s}", name, weight);
     }
+
+    public int getWeight() {
+        return weight;
+    }
 }

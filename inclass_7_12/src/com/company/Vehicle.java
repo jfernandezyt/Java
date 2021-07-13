@@ -1,5 +1,6 @@
 package com.company;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Vehicle {
@@ -34,14 +35,14 @@ public class Vehicle {
     private List<Passenger> passengersList;
     private final int maxPassengers;
 
-    public Vehicle(Engine engine, String type, boolean isLand, boolean isWater, boolean isAir, boolean isSpace, List<Passenger> passengersList, int maxPassengers) {
+    public Vehicle(Engine engine, String type, boolean isLand, boolean isWater, boolean isAir, boolean isSpace, int maxPassengers) {
         this.engine = engine;
         this.type = type;
         this.isLand = isLand;
         this.isWater = isWater;
         this.isAir = isAir;
         this.isSpace = isSpace;
-        this.passengersList = passengersList;
+        this.passengersList = new ArrayList<>();
         this.maxPassengers = maxPassengers;
     }
 

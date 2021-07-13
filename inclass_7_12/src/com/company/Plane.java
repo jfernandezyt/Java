@@ -25,7 +25,7 @@ public class Plane extends Vehicle implements VehicleWithTires{
     private List<Tire> tires;
 
     public Plane(Engine engine,int maxPassengers, boolean isLanding) {
-        super(engine, "Plane", false, false, true, false, new ArrayList<>(), maxPassengers);
+        super(engine, "Plane", false, false, true, false,  maxPassengers);
         this.isLanding = isLanding;
         this.tires = new ArrayList<>();
     }

@@ -16,7 +16,7 @@ public class Car extends Vehicle implements VehicleWithTires{
     private List<Tire> tires;
 
     public Car(Engine engine, int maxPassengers) {
-        super(engine, "Car", true, false, false, false, new ArrayList<>(), maxPassengers);
+        super(engine, "Car", true, false, false, false, maxPassengers);
         this.tires = new ArrayList<>();
     }
 
