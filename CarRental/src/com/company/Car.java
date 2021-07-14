@@ -11,13 +11,15 @@ public class Car {
         carId = ++numberOfCars;
     }
 
+    //getters
     public int getCarId() {
         return carId;
     }
-    public Double getCostPerDay() { return costPerDay; }
+    public double getCostPerDay() { return costPerDay; }
     public boolean getIsBooked() { return isBooked; }
     public static int getNumberOfCars() { return numberOfCars; }
 
+    //setter
     public void setIsBooked(boolean isBooked) {
         this.isBooked = isBooked;
     }

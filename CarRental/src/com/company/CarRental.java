@@ -166,7 +166,7 @@ public class CarRental {
     public void printIncome() {
         addAllIncome();
         System.out.printf("Income for the day was %s", income);
-
+        income = 0;
     }
 
 
