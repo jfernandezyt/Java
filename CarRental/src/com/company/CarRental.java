@@ -1,13 +1,12 @@
 package com.company;
 
-import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.List;
 
 public class CarRental {
     private final int numberOfLocations;
     private final int carsPerLocation;
-    private Location[] allLocations;
+    private List<Location>  allLocations;
     private double income = 0;
 
     public CarRental(int numberOfLocations, int carsPerLocation) {
@@ -19,68 +18,62 @@ public class CarRental {
 
     private void createLocations() {
         if (numberOfLocations > 0 && carsPerLocation > 0) {
-            Location[] locationHolder = new Location[numberOfLocations];
+            List<Location> locationHolder = new ArrayList<>();;
             for (int i = 0; i < numberOfLocations; i++) {
-                Car[] fleet = new Car[carsPerLocation];
+                List<Car> fleet = new ArrayList<>();
                 for (int j = 0; j < carsPerLocation; j++) {
-                    fleet[j] = new Car(((j + 1) * 10.0));
+                    fleet.add(new Car(((j + 1) * 10.0)));
                 }
-                locationHolder[i] = new Location(fleet);
+                locationHolder.add(new Location(fleet));
             }
-            setAllLocations(locationHolder);
+            allLocations = locationHolder;
         }
     }
 
-    public Booking bookByFirstAvailable(Customer bookingCustomer) {
-        Location[] tempLocations = getAllLocations();
-
-        for (Location tempLocation : tempLocations) {
-            Car tempCar = getFirstCarAtLocation(tempLocation);
-            if (tempCar != null)
-                return tempLocation.book(bookingCustomer, tempCar);
-
+    public void bookByFirstAvailable(Customer bookingCustomer) {
+        for (Location location : allLocations) {
+            Car car = getFirstCarAtLocation(location);
+            if (car != null) {
+                location.book(bookingCustomer, car);
+                break;
+            }
         }
-        return null;
     }
 
-    public Booking bookByLocationId(Customer bookingCustomer, int locationId) {
-        Car[] tempCarList = getAllLocations()[locationId].getAvailableCars();
-
-        for (Car car : tempCarList)
-            if (!car.getIsBooked())
-                return getAllLocations()[locationId].book(bookingCustomer, car);
-
-
-        return null;
-
+    public void bookByLocationId(Customer bookingCustomer, int locationId) {
+        List<Car> carList = allLocations.get(locationId).getAvailableCars();
+        for (Car car : carList)
+            if (!car.getIsBooked()) {
+                allLocations.get(locationId).book(bookingCustomer, car);
+                break;
+            }
     }
 
-    public Booking bookByCarId(Customer bookingCustomer, int carId) {
-        Location[] tempLocations = getAllLocations();
-
-        for (Location tempLocation : tempLocations) {
-            Car tempCar = getCarById(tempLocation, carId);
-            if (tempCar != null)
-                return tempLocation.book(bookingCustomer, tempCar);
-
+    public void bookByCarId(Customer bookingCustomer, int carId) {
+        for (Location location : allLocations) {
+            Car car = getCarById(location, carId);
+            if (car != null) {
+                location.book(bookingCustomer, car);
+                break;
+            }
         }
-        return null;
     }
 
-    private Car getFirstCarAtLocation(Location location){
-        for (int j = 0; j < location.getAvailableCars().length; j++)
-            if (!location.getAvailableCars()[j].getIsBooked())
-                return location.getAvailableCars()[j];
+    private Car getFirstCarAtLocation(Location location) {
+        for (int j = 0; j < location.getAvailableCars().size(); j++)
+            if (!location.getAvailableCars().get(j).getIsBooked())
+                return location.getAvailableCars().get(j);
             else
                 System.out.println("There weren't any vehicles available to book at this location.");
 
         return null;
 
     }
-    private Car getCarById(Location location, int carId){
-        for (int j = 0; j < location.getAvailableCars().length; j++)
-            if (!location.getAvailableCars()[j].getIsBooked() && location.getAvailableCars()[j].getCarId() == carId)
-                return location.getAvailableCars()[j];
+
+    private Car getCarById(Location location, int carId) {
+        for (int j = 0; j < location.getAvailableCars().size(); j++)
+            if (!location.getAvailableCars().get(j).getIsBooked() && location.getAvailableCars().get(j).getCarId() == carId)
+                return location.getAvailableCars().get(j);
             else
                 System.out.println("There weren't any vehicles at this location with that id.");
 
@@ -88,82 +81,99 @@ public class CarRental {
 
     }
 
-    public String settleByFirstBooking(List<Booking> list) {
-        for (Booking booking : list) {
-            if (!booking.getIsSettled()) {
-                Booking settledBooking = getAllLocations()[booking.getLocationId() - 1].settle(booking);
-
-                return produceSettledString(settledBooking);
+    public void settleByFirstBooking() {
+        for (Location location : allLocations) {
+            if (location.hasBookings()) {
+                for (Booking booking : location.getBookings()) {
+                    location.settle(booking);
+                    break;
+                }
             }
         }
-        return null;
     }
 
-    public String settleByCarId(List<Booking> list, int carId) {
-        for(Booking booking : list){
-            if(!booking.getIsSettled() && booking.getCar().getCarId() == carId){
-                Booking settledBooking = getAllLocations()[booking.getLocationId() - 1].settle(booking);
+    public void settleByCarId(int carId) {
+        for (Location location : allLocations) {
+            if (location.hasBookings()) {
+                for (Booking booking : location.getBookings()) {
+                    if (booking.getCar().getCarId() == carId && !booking.getIsSettled()) {
+                        location.settle(booking);
+                        break;
+                    }
+                }
 
-                return produceSettledString(settledBooking);
             }
         }
-        return null;
     }
 
-    public String settleByCustomerName(List<Booking> list, String name) {
-        for(Booking booking: list)
-            if(!booking.getIsSettled() && booking.getCustomer().getCustomerName().equals(name))
-                return produceSettledString(getAllLocations()[booking.getLocationId() - 1].settle(booking));
+    public void settleByCustomerName(String name) {
+        for (Location location : allLocations) {
+            if (location.hasBookings()) {
+                for (Booking booking : location.getBookings()) {
+                    if (booking.getCustomer().getCustomerName().equals(name) && !booking.getIsSettled()) {
+                        location.settle(booking);
+                        break;
+                    }
+                }
 
-        return null;
+            }
+        }
     }
 
-    public List<String> settleByLocationId(List<Booking> list, int locationId){
-        List<String> settledMessagesList = new ArrayList<>();
-        for(Booking booking: list)
-            if(!booking.getIsSettled() && booking.getLocationId() == locationId)
-                settledMessagesList.add(produceSettledString(getAllLocations()[booking.getLocationId() - 1].settle(booking)));
+    public void settleByLocationId(int locationId) {
+        for (Location location : allLocations) {
+            if (location.hasBookings() && location.getLocationId() == locationId) {
+                for (Booking booking : location.getBookings()) {
+                    if (!booking.getIsSettled()) {
+                        location.settle(booking);
+                        break;
+                    }
+                }
 
-        return settledMessagesList;
+            }
+        }
     }
 
-    public List<String> settleAll(List<Booking> list) {
-        List<String> settledMessagesList = new ArrayList<>();
-        for(Booking booking: list)
-            if(!booking.getIsSettled())
-                settledMessagesList.add(produceSettledString(getAllLocations()[booking.getLocationId() - 1].settle(booking)));
+    public void settleAll() {
+        for (Location location : allLocations) {
+            if (location.hasBookings()) {
+                for (Booking booking : location.getBookings()) {
+                    if (!booking.getIsSettled())
+                        location.settle(booking);
 
-        return settledMessagesList;
+                }
+
+            }
+        }
     }
 
-    private String produceSettledString(Booking settledBooking){
-            return String.format("%s, they rented the vehicle with the id of %s. Total cost for customer was: %s. They rented for %s days at a cost of %s per day.",
-                    settledBooking.getCustomer().getCustomerName(),
-                    settledBooking.getCar().getCarId(),
-                    settledBooking.getBookingCost(),
-                    settledBooking.getCustomer().getDaysRenting(),
-                    settledBooking.getCar().getCostPerDay());
-    }
-
+    //Getters
     public int getNumberOfLocations() {
         return numberOfLocations;
     }
-    private Location[] getAllLocations() {
+    public List<Location> getAllLocations() {
         return allLocations;
     }
-    public double getIncome(){
-        return income;
+
+
+    private void addAllIncome() {
+        for (Location location: allLocations){
+            if(location.getIncome() > 0)
+                this.income += location.getIncome();
+        }
     }
 
-    public void setIncome(double profit) {
-        income += profit;
-    }
-    private void setAllLocations(Location[] allLocations) {
-        this.allLocations = allLocations;
+    public void printIncome() {
+        addAllIncome();
+        System.out.printf("Income for the day was %s", income);
+
     }
 
+
+
+    @Override
     public String toString() {
-        return String.format("{locations: %s, carsPerLocation: %s}", numberOfLocations, carsPerLocation);
+        return String.format("{locations: %s, carsPerLocation: %s, allLocations: %s, income: %s}", numberOfLocations, carsPerLocation, allLocations, income);
     }
 
 

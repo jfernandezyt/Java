@@ -3,7 +3,7 @@ package com.company;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Vehicle {
+public abstract class Vehicle {
     /*
     @fields:
     Engine engine
@@ -54,9 +54,9 @@ public class Vehicle {
         engine.turnOff();
     }
 
-    public void addPassenger(Passenger passenger){
+    public void addPassenger(String name, int weight){
         if(passengersList.size() < maxPassengers)
-            passengersList.add(passenger);
+            passengersList.add(new Passenger(name, weight));
         else
             System.out.println("Vehicle is full");
     }

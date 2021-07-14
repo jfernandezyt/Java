@@ -29,11 +29,11 @@ public class Boat extends Vehicle {
     }
 
     @Override
-    public void addPassenger(Passenger passenger) {
+    public void addPassenger(String name, int weight) {
         if (getPassengersList().size() < getMaxPassengers()) {
-            if ((currentLoad + passenger.getWeight()) <= maxLoad) {
-                addToLoad(passenger.getWeight());
-                getPassengersList().add(passenger);
+            if ((currentLoad + weight) <= maxLoad) {
+                addToLoad(weight);
+                getPassengersList().add(new Passenger(name, weight));
             }
         } else
             System.out.println("Vehicle is full");

@@ -3,7 +3,7 @@ package com.company;
 import java.util.ArrayList;
 import java.util.List;
 
-public interface VehicleWithTires {
+public abstract class VehicleWithTires extends Vehicle{
     /*
     @fields:
     List<Tire> tires
@@ -15,9 +15,17 @@ public interface VehicleWithTires {
      */
     List<Tire> tires = new ArrayList<>();
 
-    void addTire(int diameter, int pressure, int max);
+    public VehicleWithTires(Engine engine, String type, boolean isLand, boolean isWater, boolean isAir, boolean isSpace, int maxPassengers) {
+        super(engine, type, isLand, isWater, isAir, isSpace, maxPassengers);
+    }
 
-    void removeTire();
+    void addTire(int diameter, int pressure, int max){
+        tires.add(new Tire(diameter, pressure, max));
+    }
 
-    void replaceTire(int index, int diameter, int pressure, int max);
+    void removeTire(){tires.remove(0);}
+
+    void replaceTire(int index, int diameter, int pressure, int max){
+        tires.set(index, new Tire(diameter, pressure, max));
+    }
 }

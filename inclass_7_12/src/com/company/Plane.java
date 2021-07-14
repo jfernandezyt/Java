@@ -3,7 +3,7 @@ package com.company;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Plane extends Vehicle implements VehicleWithTires{
+public class Plane extends VehicleWithTires{
     /*
     inherent from Vehicle
     implement VehicleWithTires
@@ -31,21 +31,6 @@ public class Plane extends Vehicle implements VehicleWithTires{
     }
     public void toggleLanding(){
         isLanding = !isLanding;
-    }
-
-    @Override
-    public void addTire(int diameter, int pressure, int max) {
-        tires.add(new Tire(diameter, pressure, max));
-    }
-
-    @Override
-    public void removeTire() {
-        tires.remove(0);
-    }
-
-    @Override
-    public void replaceTire(int index, int diameter, int pressure, int max) {
-        tires.set(index, new Tire(diameter, pressure, max));
     }
     @Override
     public String toString(){

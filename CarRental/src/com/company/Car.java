@@ -5,6 +5,7 @@ public class Car {
     private static int numberOfCars = 0;
     private final double costPerDay;
     private boolean isBooked = false;
+
     public Car(double costPerDay) {
         this.costPerDay = costPerDay;
         carId = ++numberOfCars;
@@ -21,6 +22,7 @@ public class Car {
         this.isBooked = isBooked;
     }
 
+    @Override
     public String toString(){
         return String.format("{carId: %s, costPerDay: %s isBooked: %s}", carId, costPerDay, isBooked);
     }

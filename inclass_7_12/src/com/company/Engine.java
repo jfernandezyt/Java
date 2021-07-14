@@ -21,11 +21,17 @@ public class Engine {
     }
 
     public void turnOn(){
-        isOn = true;
+        if(!isOn)
+            isOn = true;
+        else
+            System.out.println("Vehicle was already on.");
     }
 
     public void turnOff(){
-        isOn = false;
+        if(isOn)
+            isOn = false;
+        else
+            System.out.println("Vehicle was already off.");
     }
 
     @Override

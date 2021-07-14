@@ -12,6 +12,7 @@ public class Customer{
         customerId = ++numberOfCustomers;
     }
 
+    //getters
     public String getCustomerName() {
         return customerName;
     }
@@ -19,6 +20,7 @@ public class Customer{
         return daysRenting;
     }
 
+    @Override
     public String toString(){
         return String.format("{customerId: %s, customerName: %s, daysRenting: %s}", customerId, customerName, daysRenting);
     }

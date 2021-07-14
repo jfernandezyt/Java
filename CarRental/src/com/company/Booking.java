@@ -18,25 +18,23 @@ public class Booking {
         bookingId = ++numberOfBookings;
     }
 
+    //getters
     public Customer getCustomer(){
         return customer;
     }
     public Car getCar(){
         return car;
     }
-    public double getBookingCost(){
-        return bookingCost;
-    }
     public boolean getIsSettled(){
         return isSettled;
     }
-    public int getLocationId(){ return locationId; }
-    public int getBookingId(){ return bookingId; }
 
+    //setters
     public void setIsSettled(boolean isSettled) {
         this.isSettled = isSettled;
     }
 
+    @Override
     public String toString(){
         return String.format("{bookingId: %s, customer: %s, car: %s, bookingCost: %s, isSettled: %s, locationId: %s}", bookingId, customer, car, bookingCost, isSettled, locationId);
     }

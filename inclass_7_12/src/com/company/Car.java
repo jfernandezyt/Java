@@ -3,7 +3,7 @@ package com.company;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Car extends Vehicle implements VehicleWithTires{
+public class Car extends VehicleWithTires {
     /*
     inherent from Vehicle
     implement VehiclesWithTires
@@ -18,21 +18,6 @@ public class Car extends Vehicle implements VehicleWithTires{
     public Car(Engine engine, int maxPassengers) {
         super(engine, "Car", true, false, false, false, maxPassengers);
         this.tires = new ArrayList<>();
-    }
-
-    @Override
-    public void addTire(int diameter, int pressure, int max) {
-        tires.add(new Tire(diameter, pressure, max));
-    }
-
-    @Override
-    public void removeTire() {
-        tires.remove(0);
-    }
-
-    @Override
-    public void replaceTire(int index, int diameter, int pressure, int max) {
-        tires.set(index, new Tire(diameter, pressure, max));
     }
     @Override
     public String toString(){
