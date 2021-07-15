@@ -8,7 +8,7 @@ public class Main {
         System.out.println("\n\n\n\nThese were the bookings for today.\n");
         System.out.println("You made a total of: $ ");
         rental.printIncome();
-        for (Location location : rental.getAllLocations()) {
+        for (CanBookAndSettle location : rental.getAllLocations()) {
             for (Booking booking: location.getBookings()) {
                 System.out.println(booking);
             }

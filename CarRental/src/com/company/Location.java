@@ -3,7 +3,7 @@ package com.company;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Location {
+public class Location implements CanBookAndSettle {
     private final int locationId;
     private static int numberOfLocations = 0;
     private final List<Car> availableCars;
@@ -17,7 +17,7 @@ public class Location {
         locationId = ++numberOfLocations;
     }
 
-
+    @Override
     public void book(Customer bookingCustomer, Car bookedCar) {
         bookedCar.setIsBooked(true);
         double cost = bookingCustomer.getDaysRenting() * bookedCar.getCostPerDay();
@@ -26,28 +26,35 @@ public class Location {
         System.out.printf("Car was successfully booked for %s!", bookingCustomer.getCustomerName());
     }
 
+    @Override
     public void settle(Booking booking) {
         booking.setIsSettled(true);
         booking.getCar().setIsBooked(false);
         System.out.println("Successfully settled the account.");
     }
 
-    public boolean hasBookings() {
-        return bookings.size() > 0;
-    }
+
 
     //getters
+    @Override
     public List<Booking> getBookings() {
         return bookings;
     }
+    @Override
     public int getLocationId() {
         return locationId;
     }
+    public double getIncome() {
+        return income;
+    }
+    @Override
     public List<Car> getAvailableCars() {
         return availableCars;
     }
-    public double getIncome() {
-        return income;
+
+    @Override
+    public boolean hasBookings() {
+        return bookings.size() > 0;
     }
 
     @Override

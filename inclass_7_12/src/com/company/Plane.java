@@ -3,12 +3,13 @@ package com.company;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Plane extends VehicleWithTires{
+public class Plane extends Vehicle implements CanHaveTires {
     /*
     inherent from Vehicle
-    implement VehicleWithTires
+    implement CanHaveTires
 
     @fields:
+    List<Tire> tires
     boolean isLanding
 
     @methods
@@ -28,6 +29,16 @@ public class Plane extends VehicleWithTires{
         super(engine, "Plane", false, false, true, false,  maxPassengers);
         this.isLanding = isLanding;
         this.tires = new ArrayList<>();
+    }
+    @Override
+    public void addTire(Tire tire){
+        tires.add(tire);
+    }
+    @Override
+    public void removeTire(){tires.remove(0);}
+    @Override
+    public void replaceTire(Tire tire, int index){
+        tires.set(index, tire);
     }
     public void toggleLanding(){
         isLanding = !isLanding;

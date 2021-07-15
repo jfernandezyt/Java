@@ -61,6 +61,8 @@ public abstract class Vehicle {
             System.out.println("Vehicle is full");
     }
 
+
+
     public void removePassenger(){
         passengersList.remove(0);
     }

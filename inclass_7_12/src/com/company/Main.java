@@ -1,13 +1,15 @@
 package com.company;
 
+import java.util.ArrayList;
+
 public class Main {
 
     public static void main(String[] args) {
 	    Car car1 = new Car(new Engine("Electric", 0), 5);
-        car1.addTire(33, 35, 35);
-        car1.addTire(33, 35, 35);
-        car1.addTire(33, 35, 35);
-        car1.addTire(33, 35, 35);
+        car1.addTire(new Tire(33, 35, 35));
+        car1.addTire(new Tire(33, 35, 35));
+        car1.addTire(new Tire(33, 35, 35));
+        car1.addTire(new Tire(33, 35, 35));
         car1.addPassenger("Julia", 140);
         car1.addPassenger("Joel", 200);
         System.out.println(car1);
@@ -18,12 +20,12 @@ public class Main {
         System.out.println(boat1);
 
         Plane plane1 = new Plane(new Engine("Multi", 100), 50, false);
-        plane1.addTire(27, 200, 200);
-        plane1.addTire(27, 200, 200);
-        plane1.addTire(27, 200, 200);
-        plane1.addTire(27, 200, 200);
-        plane1.addTire(27, 200, 200);
-        plane1.addTire(27, 200, 200);
+        plane1.addTire(new Tire(27, 200, 200));
+        plane1.addTire(new Tire(27, 200, 200));
+        plane1.addTire(new Tire(27, 200, 200));
+        plane1.addTire(new Tire(27, 200, 200));
+        plane1.addTire(new Tire(27, 200, 200));
+        plane1.addTire(new Tire(27, 200, 200));
         plane1.addPassenger("Tim", 180);
         plane1.addPassenger("Tam", 150);
         plane1.addPassenger("John", 180);
