@@ -1,5 +1,5 @@
 package com.company;
 
 public interface CanSettle {
-    void settle();
+    void settle(Booking booking);
 }

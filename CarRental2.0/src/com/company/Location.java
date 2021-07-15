@@ -9,8 +9,7 @@ public class Location implements CanBook, CanSettle {
     private List<Booking> listOfBookings;
     private double income = 0;
 
-    public Location(int locationID, List<Car> listOfCars, List<Booking> listOfBookings) {
-        this.locationID = locationID;
+    public Location(List<Car> listOfCars, List<Booking> listOfBookings) {
         this.listOfCars = listOfCars;
         this.listOfBookings = listOfBookings;
         locationID = ++numberOfLocations;
@@ -18,27 +17,28 @@ public class Location implements CanBook, CanSettle {
 
     @Override
     public void book(Customer customer, Car car) {
-        if (!car.getIsBooked()) {
-            car.setIsBooked(true);
-            listOfBookings.add(new Booking(customer, car, car.getCostPerDay() * customer.getDaysRenting()));
-            System.out.println("Successfully booked!");
-        }else{
-            System.out.println("Car is not available.");
-        }
-
+        car.setIsBooked(true);
+        listOfBookings.add(new Booking(customer, car, car.getCostPerDay() * customer.getDaysRenting()));
+        System.out.println("Successfully booked!");
     }
 
     @Override
-    public void settle() {
-
-    }
-
-    public int getLocationID() {
-        return locationID;
+    public void settle(Booking booking) {
+        booking.setIsSettled(true);
+        booking.getCar().setIsBooked(false);
+        income += booking.getBookingCost();
     }
 
     public List<Car> getListOfCars() {
         return listOfCars;
+    }
+
+    public List<Booking> getListOfBookings() {
+        return listOfBookings;
+    }
+
+    public double getIncome() {
+        return income;
     }
 
     @Override
@@ -50,7 +50,6 @@ public class Location implements CanBook, CanSettle {
                 ", income=" + income +
                 '}';
     }
-
 
 
 }

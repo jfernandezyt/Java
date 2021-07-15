@@ -111,14 +111,9 @@ class Main {
 //        }
 //
 //    }
-    static class TestWithEmptyArray {
-        public static int[] get_array() {
-            return new int[0];
-        }
-    }
 
     public static void main(String args[]) {
-        //Scanner sc = new Scanner(System.in);
+        Scanner sc = new Scanner(System.in);
 
 //        Node head = null;
 //        int T = sc.nextInt();
@@ -134,22 +129,8 @@ class Main {
 //        Dog dog = new Dog("german", 3, 60, 4, "large", true, "wew", "brown");
 //        doStuff(dog);
 //        System.out.println("look "+ dog.getName());
-        boolean isBooked = true;
-        TestWithEmptyArray.get_array();
 
-        if (!isBooked) {
-            isBooked = true;
-            System.out.println(1);
-        } else {
-            isBooked = false;
-            System.out.println(2);
-        }
-
-        if (!isBooked) {
-            System.out.println(1);
-        } else {
-            System.out.println(2);
-        }
-
+        System.out.println("look: ");
+        int test = sc.nextInt();
     }
 }

@@ -16,6 +16,26 @@ public class Booking {
         bookingID = ++numberOfBookings;
     }
 
+    public int getBookingID() {
+        return bookingID;
+    }
+
+    public boolean getIsSettled() {
+        return isSettled;
+    }
+
+    public double getBookingCost() {
+        return bookingCost;
+    }
+
+    public Car getCar() {
+        return car;
+    }
+
+    public void setIsSettled(boolean isSettled) {
+        this.isSettled = isSettled;
+    }
+
     @Override
     public String toString() {
         return "Booking{" +
