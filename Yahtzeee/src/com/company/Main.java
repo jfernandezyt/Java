@@ -31,18 +31,20 @@ public class Main {
             boolean didWin = false;
 
             if (input.equals("h")) { //guessed higher
-                if (isLarger) {
+                if (isLarger)
                     didWin = true;
-                }
+
             } else { //guessed lower
-                if (!isLarger) {
+                if (!isLarger)
                     didWin = true;
-                }
+
             }
             System.out.println(didWin ? "you WIN" : "You LOSE");
 
             if(!didWin)
                 break;
+
+
             total = newTotal;
             System.out.println("Will the next number be (h)igher or (l)ower than " + total + "?");
             input = scanner.next();
