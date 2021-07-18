@@ -113,7 +113,7 @@ class Main {
 //    }
 
     public static void main(String args[]) {
-        Scanner sc = new Scanner(System.in);
+        //Scanner sc = new Scanner(System.in);
 
 //        Node head = null;
 //        int T = sc.nextInt();
@@ -130,7 +130,10 @@ class Main {
 //        doStuff(dog);
 //        System.out.println("look "+ dog.getName());
 
-        System.out.println("look: ");
-        int test = sc.nextInt();
+//        System.out.println("look: ");
+//        int test = sc.nextInt();
+
+        System.out.println(Thread.activeCount());
+        System.out.println(Runtime.getRuntime().availableProcessors());
     }
 }
