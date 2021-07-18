@@ -1,6 +1,6 @@
 package com.company;
 
-import com.company.Exception.InvalidEntry;
+import com.company.Exceptions.InvalidEntry;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,13 +8,14 @@ import java.util.List;
 public class Main {
 
     public static void main(String[] args) {
+        UserInterface userInterface = new UserInterface();
         int numberOfLocations = 0;
         int carsPerLocation = 0;
         try {
-            numberOfLocations = UserInterface.getNumberInput("Number of locations for this Car Rental company ?");
-            carsPerLocation = UserInterface.getNumberInput("Number of cars per location for this Car Rental company ?");
+            numberOfLocations = userInterface.getNumberInput("Number of locations for this Car Rental company ?");
+            carsPerLocation = userInterface.getNumberInput("Number of cars per location for this Car Rental company ?");
         } catch (InvalidEntry invalidEntry) {
-            invalidEntry.printStackTrace();
+            System.out.println(invalidEntry.getMessage());
         }
 
         List<Location> locations = null;
@@ -36,38 +37,20 @@ public class Main {
         try {
             int choice;
             do {
-                choice = UserInterface.getMenuChoice("""
-                This is the menu option for booking:
-                1: book by first available car
-                2: book by location ID
-                3: book by car ID
-                4: settle bookings
-                """);
-                if(choice == 4)
+                choice = userInterface.getMenuChoice("""
+                        Please choose between booking or settling:
+                        1: booking
+                        2: settling
+                        3: terminate program and print days results""");
+                if(choice == 3)
                     break;
-                UserInterface.handleBooking(choice, rental);
 
+                userInterface.handle(choice, rental);
             }while(true);
-
-            do {
-                choice = UserInterface.getMenuChoice("""
-                This is the menu option for settling bookings:
-                5: settle by first available booking
-                6: settle by location ID
-                7: settle by car ID
-                8: settle all bookings
-                9: to close the program
-                """);
-                UserInterface.handleSettling(choice, rental);
-                if(choice == 9)
-                    break;
-            }while(true);
-
         } catch (InvalidEntry invalidEntry) {
             invalidEntry.printStackTrace();
         }
-
-
-
+        if(rental != null)
+            userInterface.printDaysResults(rental);
     }
 }

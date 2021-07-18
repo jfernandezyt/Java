@@ -1,15 +1,13 @@
 package com.company;
 
-import com.company.Exception.InvalidEntry;
-import com.company.Exception.InvalidNumberEntry;
-import com.company.Exception.InvalidStringEntry;
+import com.company.Exceptions.*;
 
 import java.util.Scanner;
 
 public class UserInterface {
     private static Scanner sc = new Scanner(System.in);
 
-    public static Customer askCustomerInfo() throws InvalidEntry {
+    public Customer askCustomerInfo() throws InvalidEntry {
         String name = getStringInput("Enter Customer name:");
         int numberOfDaysRenting = getNumberInput("Enter number of days renting:");
         if (numberOfDaysRenting < 1) {
@@ -21,7 +19,7 @@ public class UserInterface {
         return new Customer(name, numberOfDaysRenting);
     }
 
-    public static int getMenuChoice(String message) throws InvalidEntry {
+    public int getMenuChoice(String message) throws InvalidEntry {
         int temp = getNumberInput(message);
         if (temp < 1) {
             throw new InvalidEntry(new InvalidNumberEntry("number is less than 1."));
@@ -29,7 +27,7 @@ public class UserInterface {
         return temp;
     }
 
-    public static int getNumberInput(String message) throws InvalidEntry {
+    public int getNumberInput(String message) throws InvalidEntry {
         System.out.printf("%s ", message);
         int number = sc.nextInt();
         if (number < 1) {
@@ -38,7 +36,7 @@ public class UserInterface {
         return number;
     }
 
-    public static String getStringInput(String message) throws InvalidEntry {
+    public String getStringInput(String message) throws InvalidEntry {
         System.out.printf("%s ", message);
         String temp = sc.next();
         if (temp.trim().length() == 0) {
@@ -47,9 +45,8 @@ public class UserInterface {
         return temp;
     }
 
-    public static void handleBooking(int choice, CarRental rental) throws InvalidEntry {
-        Customer customer = null;
-        customer = askCustomerInfo();
+    private void handleBooking(int choice, CarRental rental) throws InvalidEntry {
+        Customer customer = askCustomerInfo();
         switch (choice) {
             case 1:
                 rental.bookFirstAvailable(customer);
@@ -67,7 +64,7 @@ public class UserInterface {
         }
     }
 
-    public static void handleSettling(int choice, CarRental rental) throws InvalidEntry {
+    private void handleSettling(int choice, CarRental rental) throws InvalidEntry {
         switch (choice) {
             case 5:
                 rental.settleFirstBooking();
@@ -87,7 +84,7 @@ public class UserInterface {
         }
     }
 
-    public static void printDaysResults(CarRental rental) {
+    public void printDaysResults(CarRental rental) {
         System.out.printf("Income for the day: %s %n%n", rental.getIncome());
 
         System.out.println("Bookings for the day\n___________________________\n");
@@ -97,4 +94,40 @@ public class UserInterface {
 
     }
 
+    public void handle(int choice, CarRental rental) throws InvalidEntry {
+        switch (choice) {
+            case 1:
+                do {
+                    choice = getMenuChoice("""
+                            This is the menu option for booking:
+                            1: book by first available car
+                            2: book by location ID
+                            3: book by car ID
+                            4: settle bookings
+                            """);
+                    if (choice == 4)
+                        break;
+
+                    handleBooking(choice, rental);
+                } while (true);
+                break;
+            case 2:
+                do {
+                    choice = getMenuChoice("""
+                            This is the menu option for settling bookings:
+                            5: settle by first available booking
+                            6: settle by location ID
+                            7: settle by car ID
+                            8: settle all bookings
+                            9: to close the program
+                            """);
+                    if (choice == 9)
+                        break;
+
+                    handleSettling(choice, rental);
+                } while (true);
+                break;
+            default:
+        }
+    }
 }

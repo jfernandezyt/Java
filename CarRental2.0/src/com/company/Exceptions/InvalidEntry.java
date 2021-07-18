@@ -1,4 +1,4 @@
-package com.company.Exception;
+package com.company.Exceptions;
 
 public class InvalidEntry  extends Exception{
 
