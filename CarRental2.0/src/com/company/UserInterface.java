@@ -89,7 +89,7 @@ public class UserInterface {
 
         System.out.println("Bookings for the day\n___________________________\n");
 
-        for (Location location : rental.getLocations())
+        for (CanRent location : rental.getLocations())
             System.out.println(location.getListOfBookings());
 
     }

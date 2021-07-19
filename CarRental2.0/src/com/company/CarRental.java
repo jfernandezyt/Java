@@ -1,19 +1,22 @@
 package com.company;
 
+
 import java.util.List;
+import java.util.Map;
 
 public class CarRental {
-    private List<Location> locations;
+    private List<CanRent> locations;
     private double income = 0;
 
-    public CarRental(List<Location> locations) {
+    public CarRental(List<CanRent> locations) {
         this.locations = locations;
     }
 
     public void bookFirstAvailable(Customer customer) {
         boolean isDoneBooking = false;
-        for (Location location : locations) {
-            for (Car car : location.getListOfCars()) {
+        for (CanRent location : locations) {
+            for (Object carObj : location.getInventory()) {
+                Car car = (Car) carObj;
                 if (!car.getIsBooked()) {
                     location.book(customer, car);
                     isDoneBooking = true;
@@ -26,7 +29,8 @@ public class CarRental {
     }
 
     public void bookByLocationID(Customer customer, int locationID) {
-        for (Car car : locations.get(locationID).getListOfCars()) {
+        for (Object carObj : locations.get(locationID).getInventory()) {
+            Car car = (Car) carObj;
             if (!car.getIsBooked()) {
                 locations.get(locationID).book(customer, car);
                 break;
@@ -36,11 +40,13 @@ public class CarRental {
 
     public void bookByCarID(Customer customer, int carID) {
         boolean isDoneBooking = false;
-        for (Location location : locations) {
-            if(location.getListOfCars().get(location.getListOfCars().size() - 1).getCarID() < carID ){
+        for (CanRent location : locations) {
+            Car check = (Car) location.getInventory().get(location.getInventory().size() - 1);
+            if(check.getCarID() < carID ){
                 continue;
             }
-            for (Car car : location.getListOfCars()) {
+            for (Object carObj : location.getInventory()) {
+                Car car = (Car) carObj;
                 if (!car.getIsBooked()) {
                     location.book(customer, car);
                     isDoneBooking = true;
@@ -54,7 +60,7 @@ public class CarRental {
 
     public void settleFirstBooking(){
         boolean isDoneSettling = false;
-        for (Location location: locations) {
+        for (CanRent location: locations) {
             for (Booking booking: location.getListOfBookings()) {
                 if(!booking.getIsSettled()){
                     location.settle(booking);
@@ -84,7 +90,7 @@ public class CarRental {
 
     public void settleByCarID(int carID){
         boolean isDoneSettling = false;
-        for (Location location: locations) {
+        for (CanRent location: locations) {
             for (Booking booking: location.getListOfBookings()) {
                 if(booking.getCar().getCarID() == carID && !booking.getIsSettled()){
                     location.settle(booking);
@@ -100,7 +106,7 @@ public class CarRental {
 
     public void settleAll(){
         int counter = 0;
-        for (Location location: locations) {
+        for (CanRent location: locations) {
             for (Booking booking: location.getListOfBookings()) {
                 if(!booking.getIsSettled()) {
                     location.settle(booking);
@@ -120,12 +126,12 @@ public class CarRental {
         return income;
     }
 
-    public List<Location> getLocations() {
+    public List<CanRent> getLocations() {
         return locations;
     }
 
     private void calculateIncome(){
-        for (Location location: locations) {
+        for (CanRent location: locations) {
             income += location.getIncome();
         }
     }

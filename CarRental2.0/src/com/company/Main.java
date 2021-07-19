@@ -18,7 +18,7 @@ public class Main {
             System.out.println(invalidEntry.getMessage());
         }
 
-        List<Location> locations = null;
+        List<CanRent> locations = null;
         if (numberOfLocations > 0 && carsPerLocation > 0) {
             locations = new ArrayList<>();
             for (int i = 0; i < numberOfLocations; i++) {

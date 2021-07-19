@@ -2,15 +2,15 @@ package com.company;
 
 import java.util.List;
 
-public class Location implements CanBook, CanSettle {
+public class Location implements CanRent {
     private final int locationID;
     private static int numberOfLocations = 0;
-    private List<Car> listOfCars;
+    private List<Car> listOfInventory;
     private List<Booking> listOfBookings;
     private double income = 0;
 
-    public Location(List<Car> listOfCars, List<Booking> listOfBookings) {
-        this.listOfCars = listOfCars;
+    public Location(List<Car> listOfInventory, List<Booking> listOfBookings) {
+        this.listOfInventory = listOfInventory;
         this.listOfBookings = listOfBookings;
         locationID = ++numberOfLocations;
     }
@@ -29,14 +29,17 @@ public class Location implements CanBook, CanSettle {
         income += booking.getBookingCost();
     }
 
-    public List<Car> getListOfCars() {
-        return listOfCars;
+    @Override
+    public List<Car> getInventory() {
+        return listOfInventory;
     }
 
+    @Override
     public List<Booking> getListOfBookings() {
         return listOfBookings;
     }
 
+    @Override
     public double getIncome() {
         return income;
     }
@@ -45,7 +48,7 @@ public class Location implements CanBook, CanSettle {
     public String toString() {
         return "Location{" +
                 "locationID=" + locationID +
-                ", listOfCars=" + listOfCars +
+                ", listOfCars=" + listOfInventory +
                 ", listOfBookings=" + listOfBookings +
                 ", income=" + income +
                 '}';
