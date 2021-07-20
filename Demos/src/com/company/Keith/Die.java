@@ -1,4 +1,4 @@
-package com.company;
+package com.company.Keith;
 
 public class Die {
     private int numberOfSides;

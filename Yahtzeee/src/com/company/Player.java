@@ -3,16 +3,12 @@ package com.company;
 public class Player {
     private final String name;
     //private ScoreCard scoreCard;
-    private Cup cup;
-    public int highestScore = 0;
+    public Cup cup;
+    private int highestScore = 0;
 
     public Player(String name, Cup cup) {
         this.name = name;
         this.cup = cup;
-    }
-
-    public Cup getCup() {
-        return cup;
     }
 
     public int getCurrentScore(){
@@ -23,11 +19,23 @@ public class Player {
         return score;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public int getHighestScore() {
+        return highestScore;
+    }
+
+    public void setHighestScore(int highestScore) {
+        if(highestScore > this.highestScore)
+            this.highestScore = highestScore;
+    }
+
     @Override
     public String toString() {
         return "Player{" +
                 "name='" + name + '\'' +
-                ", cup=" + cup +
                 ", highestScore=" + highestScore +
                 '}';
     }
