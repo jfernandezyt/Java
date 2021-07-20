@@ -2,50 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="8d3d0234-f7fd-4331-928a-16d33da23b52" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/description.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/project-template.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/codewithmosh/Main.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/codewithmosh/collections/CollectionDemo.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/codewithmosh/collections/Customer.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/codewithmosh/collections/EmailComparator.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/codewithmosh/collections/ListDemo.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/codewithmosh/collections/MapDemo.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/codewithmosh/collections/QueueDemo.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/codewithmosh/collections/SetDemo.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/codewithmosh/concurrency/DownloadFileTask.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/codewithmosh/concurrency/DownloadStatus.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/codewithmosh/concurrency/ThreadDemo.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/codewithmosh/exceptions/Account.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/codewithmosh/exceptions/AccountException.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/codewithmosh/exceptions/ExceptionsDemo.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/codewithmosh/exceptions/InsufficientFundsException.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/codewithmosh/executors/CompletableFuturesDemo.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/codewithmosh/executors/ExecutorsDemo.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/codewithmosh/executors/FlightService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/codewithmosh/executors/LongTask.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/codewithmosh/executors/MailService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/codewithmosh/executors/Quote.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/codewithmosh/generics/GenericList.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/codewithmosh/generics/Instructor.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/codewithmosh/generics/KeyValuePair.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/codewithmosh/generics/List.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/codewithmosh/generics/User.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/codewithmosh/generics/UserList.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/codewithmosh/generics/Utils.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/codewithmosh/lambdas/ConsolePrinter.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/codewithmosh/lambdas/LambdasDemo.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/codewithmosh/lambdas/Printer.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/codewithmosh/streams/CreatingStreamsDemo.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/codewithmosh/streams/Genre.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/codewithmosh/streams/Movie.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/codewithmosh/streams/StreamsDemo.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/company/Main.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/untitled104.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../test/src/com/company/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/../test/src/com/company/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -117,29 +74,25 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../inclass_7_12" />
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../Yahtzeee" />
   </component>
   <component name="RunManager">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true">
-      <option name="MAIN_CLASS_NAME" value="com.company.Main" />
+      <option name="MAIN_CLASS_NAME" value="com.codewithmosh.Main" />
       <module name="untitled104" />
-      <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
       <RunnerSettings RunnerId="Run" />
       <ConfigurationWrapper RunnerId="Run" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration default="true" type="GroovyScriptRunConfiguration" factoryName="Groovy">
-      <setting name="path" value="" />
-      <setting name="vmparams" value="" />
-      <setting name="params" value="" />
-      <setting name="workDir" value="file://$PROJECT_DIR$" />
-      <setting name="debug" value="false" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.Main" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
