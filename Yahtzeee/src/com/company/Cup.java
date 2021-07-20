@@ -1,7 +1,6 @@
 package com.company;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class Cup {
@@ -31,7 +30,11 @@ public class Cup {
 
     }
 
-    public String  displaySize(){
+    public List<Die> getDice() {
+        return dice;
+    }
+
+    public String displayDice(){
         StringBuilder output = new StringBuilder();
         for(Die die : dice)
             output.append(die.faceUpValue).append(" ");

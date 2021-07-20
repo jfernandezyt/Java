@@ -2,8 +2,10 @@ package com.company;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 public class Console {
+    private static Scanner scanner = new Scanner(System.in);
     public static List<Integer> parseUserSelections(String input) {
         String[] inputArr = input.split(" ");
         List<Integer> selections = new ArrayList<>();
@@ -11,5 +13,22 @@ public class Console {
             selections.add(Integer.parseInt(temp) - 1);
 
         return selections;
+    }
+
+    public static String getNumbersToReRoll(){
+        scanner.nextLine();
+        displayMessage("What Numbers would you like to re-roll  (1-5) ?");
+        return scanner.nextLine();
+    }
+    public static int getNumberInput(String message){
+        displayMessage(message);
+        return scanner.nextInt();
+    }
+    public static String getStringInput(String message){
+        displayMessage(message);
+        return scanner.next();
+    }
+    public static void displayMessage(String message){
+        System.out.print(message);
     }
 }
