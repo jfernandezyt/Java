@@ -4,17 +4,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Yahtzee {
-    private List<Player> players = new ArrayList<>();
+    private final List<Player> players = new ArrayList<>();
 
     public Yahtzee() {
         setup();
     }
 
     private void setup() {
-        //Create the games Cup
         Cup gamesCup = new Cup();
 
-        //Get Number of players playing
         int numberOfPlayers = Console.getNumberInput("How many players are playing?");
 
         for (int i = 0; i < numberOfPlayers; i++) {
@@ -23,22 +21,36 @@ public class Yahtzee {
         }
     }
 
-    private void runTurn(Player currentPlayer, Turn turn) {
-        List<Integer> scores = new ArrayList<>();
+    private int runTurn(Player currentPlayer) {
+        int roundScore = 0;
+        int currentRolls = 0;
 
-        turn.runTurn(currentPlayer);
-        Console.displayMessage(currentPlayer.cup.displayDice());
-        scores.add(currentPlayer.getCurrentScore());
-
-        turn.endTurn(scores, currentPlayer);
+        while(currentRolls < 3){
+            int turnScore;
+            if (currentRolls == 0) {
+                currentPlayer.cup.roll();
+                Console.displayMessage(currentPlayer.cup.displayDice() + "\n");
+                currentPlayer.cup.roll(pickDice(currentPlayer.getName()));
+                roundScore += turnScore = currentPlayer.updateScore();
+            } else {
+                Console.displayMessage(currentPlayer.cup.displayDice() + "\n");
+                currentPlayer.cup.roll(pickDice(currentPlayer.getName()));
+                roundScore += turnScore = currentPlayer.updateScore();
+            }
+            Console.displayMessage("This turn in round score: " + turnScore + "\n");
+            currentRolls++;
+        }
+        return roundScore;
     }
 
-//    public Player getPlayer(int index) {
-//        return players.get(index);
-//    }
 
-    public void runGame(Turn turn, Player player) {
-        runTurn(player, turn);
+    public void runGame() {
+        for (Player player: players) {
+            Console.displayMessage("\n\nCurrent Player Turn: " + player.getName() + "\n");
+            int roundScore = runTurn(player);
+            Console.displayMessage("End of round score " + roundScore + "\n");
+        }
+
     }
 
     public Player determineWinner() {
@@ -47,13 +59,13 @@ public class Yahtzee {
             if (winner == null)
                 winner = player;
 
-            if (winner.getHighestScore() < player.getHighestScore())
+            if (winner.getScore() < player.getScore())
                 winner = player;
         }
         return winner;
     }
 
-    public List<Player> getPlayers() {
-        return players;
+    public List<Integer> pickDice(String name) {
+        return Console.parseUserSelections(Console.getNumbersToReRoll(name));
     }
 }

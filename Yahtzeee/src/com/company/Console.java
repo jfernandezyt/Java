@@ -5,7 +5,8 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Console {
-    private static Scanner scanner = new Scanner(System.in);
+    private static final Scanner scanner = new Scanner(System.in);
+
     public static List<Integer> parseUserSelections(String input) {
         String[] inputArr = input.split(" ");
         List<Integer> selections = new ArrayList<>();
@@ -15,9 +16,9 @@ public class Console {
         return selections;
     }
 
-    public static String getNumbersToReRoll(){
+    public static String getNumbersToReRoll(String playerName){
         scanner.nextLine();
-        displayMessage("What Numbers would you like to re-roll  (1-5) ?");
+        displayMessage("What Numbers would you like to re-roll (Player: " +playerName + ")  (1-5) ?");
         return scanner.nextLine();
     }
     public static int getNumberInput(String message){

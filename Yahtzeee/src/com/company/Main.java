@@ -4,13 +4,12 @@ package com.company;
 public class Main {
 
     public static void main(String[] args) {
-        Yahtzee myYahtzee = new Yahtzee();
+        Yahtzee myGame = new Yahtzee();
 
-        for (Player player: myYahtzee.getPlayers())
-            myYahtzee.runGame(new Turn(), player);
+        myGame.runGame();
 
-        Player winner = myYahtzee.determineWinner();
+        Player winner = myGame.determineWinner();
 
-        Console.displayMessage(String.format("%s won this round with a score of %s", winner.getName(), winner.getHighestScore()));
+        Console.displayMessage(String.format("%s won this round with a score of %s", winner.getName(), winner.getScore()));
     }
 }
