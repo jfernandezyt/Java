@@ -7,6 +7,9 @@ public class Yahtzee {
     private final List<Player> players = new ArrayList<>();
     private final int AMOUNT_OF_ROLLS_PER_TURN = 3;
     private final int ROUNDS = 5;
+    private final int MAX_PLAYERS = 6;
+    private final int MIN_PLAYERS = 1;
+
 
     public Yahtzee() {
         setup();
@@ -14,8 +17,12 @@ public class Yahtzee {
 
     private void setup() {
         Cup gamesCup = new Cup();
+        int numberOfPlayers = 0;
 
-        int numberOfPlayers = Console.getNumberInput("How many players are playing? ");
+        do {
+            numberOfPlayers = Console.getNumberInput("How many players are playing? ");
+        } while (numberOfPlayers < MIN_PLAYERS || numberOfPlayers > MAX_PLAYERS);
+
 
         for (int i = 0; i < numberOfPlayers; i++) {
             String name = Console.getStringInput("Player" + (i + 1) + " name:");
@@ -42,16 +49,14 @@ public class Yahtzee {
 
     public void runGame() {
         int roundNumber = 0;
+
         while (roundNumber < ROUNDS) {
             for (int i = 0; i < players.size(); i++) {
                 Console.displayMessage("Current round: " + (roundNumber + 1));
                 Console.displayMessage("\n\nCurrent Player Turn: " + players.get(i).getName() + "\n\n");
                 runTurn(players.get(i));
-                if (i == (players.size() - 1)) {
-                    i = -1;
-                    roundNumber++;
-                }
             }
+            roundNumber++;
         }
 
 
