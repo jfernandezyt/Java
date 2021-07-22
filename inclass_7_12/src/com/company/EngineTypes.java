@@ -2,7 +2,7 @@ package com.company;
 
 public enum EngineTypes {
     BOAT,
-    FUEL,
+    COMBUSTION,
     AIRPLANE,
     ELECTRIC,
 }

@@ -10,6 +10,7 @@ public class Yahtzee {
     public Yahtzee() {
         setup();
     }
+
     private void setup() {
         Cup gamesCup = new Cup();
 
@@ -25,7 +26,7 @@ public class Yahtzee {
         int turnScore = 0;
         int currentRolls = 0;
 
-        while (currentRolls < 5) {
+        while (currentRolls < 3) {
             int rollScore;
             if (currentRolls == 0) {
                 currentPlayer.cup.roll();
@@ -44,11 +45,18 @@ public class Yahtzee {
     }
 
     public void runGame() {
-        for (Player player : players) {
-            Console.displayMessage("\n\nCurrent Player Turn: " + player.getName() + "\n\n");
-            int turnScore = runTurn(player);
+        int roundNumber = 1;
+        for(int i = 0; i < players.size(); i++) {
+            Console.displayMessage("Current round: " + roundNumber);
+            Console.displayMessage("\n\nCurrent Player Turn: " + players.get(i).getName() + "\n\n");
+            int turnScore = runTurn(players.get(i));
             Console.displayMessage("End of round score " + turnScore + "\n");
+            if(i == (players.size() - 1)){
+                i = -1;
+                roundNumber++;
+            }
         }
+
 
     }
 

@@ -10,8 +10,8 @@ public class  EngineFactory {
                 return new BoatEngine(fuel);
             case AIRPLANE:
                 return new AirplaneEngine(fuel);
-            case FUEL:
-                return new FuelEngine(fuel);
+            case COMBUSTION:
+                return new CombustionEngine(fuel);
             default:
                 System.out.println("Not a valid engine");
         }
