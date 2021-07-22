@@ -6,7 +6,7 @@ import java.util.List;
 public abstract class Vehicle {
     /*
     @fields:
-    Engine engine
+    Temp temp
     String type
     boolean isLand
     boolean isWater
@@ -16,17 +16,17 @@ public abstract class Vehicle {
     int maxPassengers
 
     @methods
-    turnOn - switch engine on
-    turnOff - switch engine to off
+    turnOn - switch temp on
+    turnOff - switch temp to off
     addPassenger - add a passenger to the list of passengers
     removePassenger - remove specific passenger or last passenger ? clarify
 
     @constructors:
-    Vehicle(engine, type, isLand, isWater, isWater, isAir, isSpace, list, maxPassengers)
+    Vehicle(temp, type, isLand, isWater, isWater, isAir, isSpace, list, maxPassengers)
 
      */
 
-    private Engine engine;
+    private IEngine engine;
     private final String type;
     private final boolean isLand;
     private final boolean isWater;
@@ -35,7 +35,7 @@ public abstract class Vehicle {
     private List<Passenger> passengersList;
     private final int maxPassengers;
 
-    public Vehicle(Engine engine, String type, boolean isLand, boolean isWater, boolean isAir, boolean isSpace, int maxPassengers) {
+    public Vehicle(IEngine engine, String type, boolean isLand, boolean isWater, boolean isAir, boolean isSpace, int maxPassengers) {
         this.engine = engine;
         this.type = type;
         this.isLand = isLand;
@@ -67,7 +67,7 @@ public abstract class Vehicle {
         passengersList.remove(0);
     }
 
-    public Engine getEngine() {
+    public IEngine getEngine() {
         return engine;
     }
 

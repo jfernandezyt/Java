@@ -2,6 +2,7 @@ package com.company;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 public class Yahtzee {
     private final List<Player> players = new ArrayList<>();
@@ -9,7 +10,6 @@ public class Yahtzee {
     public Yahtzee() {
         setup();
     }
-
     private void setup() {
         Cup gamesCup = new Cup();
 

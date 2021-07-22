@@ -3,7 +3,7 @@ package com.company;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Car extends Vehicle implements CanHaveTires {
+public class Car extends Vehicle implements IHaveTires {
     /*
     inherent from Vehicle
     implement VehiclesWithTires
@@ -12,13 +12,13 @@ public class Car extends Vehicle implements CanHaveTires {
     List<Tire> tires
 
     @constructors:
-    Car(Engine engine, String type, List<Passenger> list, Tire[] tires, int maxPassengers)
+    Car(Temp engine, String type, List<Passenger> list, Tire[] tires, int maxPassengers)
         use the parent class to set the (engine, type, isLand, isWater, isWater, isAir, isSpace, list, maxPassengers)
         set tires
      */
     private List<Tire> tires;
 
-    public Car(Engine engine, int maxPassengers) {
+    public Car(IEngine engine, int maxPassengers) {
         super(engine, "Car", true, false, false, false, maxPassengers);
         this.tires = new ArrayList<>();
     }

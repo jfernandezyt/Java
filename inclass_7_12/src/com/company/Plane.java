@@ -3,10 +3,10 @@ package com.company;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Plane extends Vehicle implements CanHaveTires {
+public class Plane extends Vehicle implements IHaveTires {
     /*
     inherent from Vehicle
-    implement CanHaveTires
+    implement IHaveTires
 
     @fields:
     List<Tire> tires
@@ -16,7 +16,7 @@ public class Plane extends Vehicle implements CanHaveTires {
     toggleLanding - switch isLanding from current state
 
     @constructors:
-    Plane(Engine engine, String type, List<Passenger> list, Tire[] tires, int maxPassengers, boolean isLanding)
+    Plane(Temp engine, String type, List<Passenger> list, Tire[] tires, int maxPassengers, boolean isLanding)
         use the parent class to set the (engine, type, isLand, isWater, isWater, isAir, isSpace, list, maxPassengers)
         set isLanding
         set Tires
@@ -25,7 +25,7 @@ public class Plane extends Vehicle implements CanHaveTires {
     private boolean isLanding;
     private List<Tire> tires;
 
-    public Plane(Engine engine,int maxPassengers, boolean isLanding) {
+    public Plane(IEngine engine, int maxPassengers, boolean isLanding) {
         super(engine, "Plane", false, false, true, false,  maxPassengers);
         this.isLanding = isLanding;
         this.tires = new ArrayList<>();

@@ -8,7 +8,7 @@ public class Boat extends Vehicle {
     int maxLoad
 
     @constructors:
-    Boat(Engine engine, String type, List<Passenger> list, int maxPassengers, int maxLoad)
+    Boat(Temp engine, String type, List<Passenger> list, int maxPassengers, int maxLoad)
         use the parent class to set the (engine, type, isLand, isWater, isWater, isAir, isSpace, list, maxPassengers)
         set maxLoad
 
@@ -16,7 +16,7 @@ public class Boat extends Vehicle {
     private final int maxLoad;
     private int currentLoad = 0;
 
-    public Boat(Engine engine, int maxPassengers, int maxLoad) {
+    public Boat(IEngine engine, int maxPassengers, int maxLoad) {
         super(engine, "Boat", false, true, false, false, maxPassengers);
         this.maxLoad = maxLoad;
     }

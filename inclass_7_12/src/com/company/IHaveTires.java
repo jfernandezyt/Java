@@ -1,6 +1,6 @@
 package com.company;
 
-public interface CanHaveTires {
+public interface IHaveTires {
     /*
     @methods:
     addTire(int diameter, int pressure, int max)
