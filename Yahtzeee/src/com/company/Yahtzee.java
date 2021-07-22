@@ -25,7 +25,7 @@ public class Yahtzee {
         int roundScore = 0;
         int currentRolls = 0;
 
-        while(currentRolls < 3){
+        while (currentRolls < 5) {
             int turnScore;
             if (currentRolls == 0) {
                 currentPlayer.cup.roll();
@@ -43,9 +43,8 @@ public class Yahtzee {
         return roundScore;
     }
 
-
     public void runGame() {
-        for (Player player: players) {
+        for (Player player : players) {
             Console.displayMessage("\n\nCurrent Player Turn: " + player.getName() + "\n");
             int roundScore = runTurn(player);
             Console.displayMessage("End of round score " + roundScore + "\n");
@@ -56,9 +55,10 @@ public class Yahtzee {
     public Player determineWinner() {
         Player winner = null;
         for (Player player : players) {
-            if (winner == null)
+            if (winner == null) {
                 winner = player;
-
+                continue;
+            }
             if (winner.getScore() < player.getScore())
                 winner = player;
         }
