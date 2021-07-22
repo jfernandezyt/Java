@@ -13,7 +13,7 @@ public class Yahtzee {
     private void setup() {
         Cup gamesCup = new Cup();
 
-        int numberOfPlayers = Console.getNumberInput("How many players are playing?");
+        int numberOfPlayers = Console.getNumberInput("How many players are playing? ");
 
         for (int i = 0; i < numberOfPlayers; i++) {
             String name = Console.getStringInput("Player" + (i + 1) + " name:");
@@ -22,32 +22,32 @@ public class Yahtzee {
     }
 
     private int runTurn(Player currentPlayer) {
-        int roundScore = 0;
+        int turnScore = 0;
         int currentRolls = 0;
 
         while (currentRolls < 5) {
-            int turnScore;
+            int rollScore;
             if (currentRolls == 0) {
                 currentPlayer.cup.roll();
                 Console.displayMessage(currentPlayer.cup.displayDice() + "\n");
                 currentPlayer.cup.roll(pickDice(currentPlayer.getName()));
-                roundScore += turnScore = currentPlayer.updateScore();
+                turnScore += rollScore = currentPlayer.updateScore();
             } else {
                 Console.displayMessage(currentPlayer.cup.displayDice() + "\n");
                 currentPlayer.cup.roll(pickDice(currentPlayer.getName()));
-                roundScore += turnScore = currentPlayer.updateScore();
+                turnScore += rollScore = currentPlayer.updateScore();
             }
-            Console.displayMessage("This turn in round score: " + turnScore + "\n");
+            Console.displayMessage("\nThis turn in round score: " + rollScore + "\n\n");
             currentRolls++;
         }
-        return roundScore;
+        return turnScore;
     }
 
     public void runGame() {
         for (Player player : players) {
-            Console.displayMessage("\n\nCurrent Player Turn: " + player.getName() + "\n");
-            int roundScore = runTurn(player);
-            Console.displayMessage("End of round score " + roundScore + "\n");
+            Console.displayMessage("\n\nCurrent Player Turn: " + player.getName() + "\n\n");
+            int turnScore = runTurn(player);
+            Console.displayMessage("End of round score " + turnScore + "\n");
         }
 
     }

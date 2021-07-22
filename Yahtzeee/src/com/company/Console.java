@@ -17,8 +17,11 @@ public class Console {
     }
 
     public static String getNumbersToReRoll(String playerName){
+        //this is needed to move the terminal cursor to the next readable line
+        //when nextLine() is used the terminal cursor is left at the end of the user entry
+        //and when nextLine() is used again it just consumes an empty string.
         scanner.nextLine();
-        displayMessage("What Numbers would you like to re-roll (Player: " +playerName + ")  (1-5) ?");
+        displayMessage("What Numbers would you like to re-roll (Player: " +playerName + ")  (1-5) ? ");
         return scanner.nextLine();
     }
     public static int getNumberInput(String message){
