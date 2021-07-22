@@ -2,10 +2,11 @@ package com.company;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
 
 public class Yahtzee {
     private final List<Player> players = new ArrayList<>();
+    private final int AMOUNT_OF_ROLLS_PER_TURN = 3;
+    private final int ROUNDS = 5;
 
     public Yahtzee() {
         setup();
@@ -22,38 +23,34 @@ public class Yahtzee {
         }
     }
 
-    private int runTurn(Player currentPlayer) {
-        int turnScore = 0;
-        int currentRolls = 0;
+    private void runTurn(Player currentPlayer) {
+        int currentRoll = 0;
 
-        while (currentRolls < 3) {
-            int rollScore;
-            if (currentRolls == 0) {
+        while (currentRoll < AMOUNT_OF_ROLLS_PER_TURN) {
+            if (currentRoll == 0) {
                 currentPlayer.cup.roll();
                 Console.displayMessage(currentPlayer.cup.displayDice() + "\n");
                 currentPlayer.cup.roll(pickDice(currentPlayer.getName()));
-                turnScore += rollScore = currentPlayer.updateScore();
             } else {
                 Console.displayMessage(currentPlayer.cup.displayDice() + "\n");
                 currentPlayer.cup.roll(pickDice(currentPlayer.getName()));
-                turnScore += rollScore = currentPlayer.updateScore();
             }
-            Console.displayMessage("\nThis turn in round score: " + rollScore + "\n\n");
-            currentRolls++;
+            currentRoll++;
         }
-        return turnScore;
+        Console.displayMessage("\nScore this turn: " + currentPlayer.updateScore() + "\n\n");
     }
 
     public void runGame() {
-        int roundNumber = 1;
-        for(int i = 0; i < players.size(); i++) {
-            Console.displayMessage("Current round: " + roundNumber);
-            Console.displayMessage("\n\nCurrent Player Turn: " + players.get(i).getName() + "\n\n");
-            int turnScore = runTurn(players.get(i));
-            Console.displayMessage("End of round score " + turnScore + "\n");
-            if(i == (players.size() - 1)){
-                i = -1;
-                roundNumber++;
+        int roundNumber = 0;
+        while (roundNumber < ROUNDS) {
+            for (int i = 0; i < players.size(); i++) {
+                Console.displayMessage("Current round: " + (roundNumber + 1));
+                Console.displayMessage("\n\nCurrent Player Turn: " + players.get(i).getName() + "\n\n");
+                runTurn(players.get(i));
+                if (i == (players.size() - 1)) {
+                    i = -1;
+                    roundNumber++;
+                }
             }
         }
 
