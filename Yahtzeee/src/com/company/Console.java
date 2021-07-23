@@ -10,29 +10,37 @@ public class Console {
     public static List<Integer> parseUserSelections(String input) {
         String[] inputArr = input.split(" ");
         List<Integer> selections = new ArrayList<>();
-        for (String temp: inputArr)
+        for (String temp : inputArr) {
+            if (temp.equals("0")) {
+                return new ArrayList<>();
+            }
             selections.add(Integer.parseInt(temp) - 1);
-
+        }
         return selections;
     }
 
-    public static String getNumbersToReRoll(String playerName){
-        //this is needed to move the terminal cursor to the next readable line
-        //when nextLine() is used the terminal cursor is left at the end of the user entry
-        //and when nextLine() is used again it just consumes an empty string.
+    public static String getNumbersToReRoll(String playerName) {
         scanner.nextLine();
-        displayMessage("What Numbers would you like to re-roll (Player: " +playerName + ")  (1-5) ? ");
+        displayMessage("What Numbers would you like to re-roll (Player: " + playerName + ")  (1-5) ? ");
+        String temp = scanner.nextLine();
+        if(temp.equals("")) return null;
         return scanner.nextLine();
     }
-    public static int getNumberInput(String message){
+
+    public static int getNumberInput(String message) {
         displayMessage(message);
         return scanner.nextInt();
     }
-    public static String getStringInput(String message){
+    public static void nextLine(){
+        scanner.nextLine();
+    }
+
+    public static String getStringInput(String message) {
         displayMessage(message);
         return scanner.next();
     }
-    public static void displayMessage(String message){
+
+    public static void displayMessage(String message) {
         System.out.print(message);
     }
 }

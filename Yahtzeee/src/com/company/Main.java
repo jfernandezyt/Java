@@ -7,9 +7,5 @@ public class Main {
         Yahtzee myGame = new Yahtzee();
 
         myGame.runGame();
-
-        Player winner = myGame.determineWinner();
-
-        Console.displayMessage(String.format("%s won this round with a score of %s", winner.getName(), winner.getScore()));
     }
 }

@@ -21,6 +21,7 @@ public class Yahtzee {
 
         do {
             numberOfPlayers = Console.getNumberInput("How many players are playing? ");
+            Console.nextLine();
         } while (numberOfPlayers < MIN_PLAYERS || numberOfPlayers > MAX_PLAYERS);
 
 
@@ -32,7 +33,7 @@ public class Yahtzee {
 
     private void runTurn(Player currentPlayer) {
         int currentRoll = 0;
-
+        Console.displayMessage(String.format("New turn, it is %s turn !! %n", currentPlayer.getName()));
         while (currentRoll < AMOUNT_OF_ROLLS_PER_TURN) {
             if (currentRoll == 0) {
                 currentPlayer.cup.roll();
@@ -46,36 +47,40 @@ public class Yahtzee {
         }
         Console.displayMessage("\nScore this turn: " + currentPlayer.updateScore() + "\n\n");
     }
+    private void runRound(int roundNumber){
+
+        for (Player activePlayer: players) {
+            Console.displayMessage("Current round: " + (roundNumber + 1));
+            Console.displayMessage("\n\nCurrent Player Turn: " + activePlayer.getName() + "\n\n");
+            runTurn(activePlayer);
+        }
+    }
 
     public void runGame() {
         int roundNumber = 0;
 
         while (roundNumber < ROUNDS) {
-            for (int i = 0; i < players.size(); i++) {
-                Console.displayMessage("Current round: " + (roundNumber + 1));
-                Console.displayMessage("\n\nCurrent Player Turn: " + players.get(i).getName() + "\n\n");
-                runTurn(players.get(i));
-            }
+            runRound(roundNumber);
             roundNumber++;
         }
-
-
+        determineWinner();
     }
 
-    public Player determineWinner() {
-        Player winner = null;
-        for (Player player : players) {
-            if (winner == null) {
-                winner = player;
-                continue;
-            }
+    private void determineWinner() {
+        Player winner = players.get(0);
+
+        for(Player player: players){
             if (winner.getScore() < player.getScore())
                 winner = player;
+
+            Console.displayMessage(String.format("Name: %s | Score = %s %n", player.getName(), player.getScore()));
         }
-        return winner;
+        Console.displayMessage(String.format("Our winner is %s", winner));
     }
 
     public List<Integer> pickDice(String name) {
-        return Console.parseUserSelections(Console.getNumbersToReRoll(name));
+        String temp = Console.getNumbersToReRoll(name);
+        return Console.parseUserSelections((temp == null) ? "0": temp);
     }
+
 }
