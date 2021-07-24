@@ -15,6 +15,10 @@ public class Cup {
         }
     }
 
+    public Cup(List<Die> dice) {
+        this.dice = dice;
+    }
+
     public void  roll(){
         for(Die die : dice)
             die.roll();
