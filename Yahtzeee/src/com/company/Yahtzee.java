@@ -48,7 +48,6 @@ public class Yahtzee {
         Console.displayMessage("\nScore this turn: " + currentPlayer.updateScore() + "\n\n");
     }
     private void runRound(int roundNumber){
-
         for (Player activePlayer: players) {
             Console.displayMessage("Current round: " + (roundNumber + 1));
             Console.displayMessage("\n\nCurrent Player Turn: " + activePlayer.getName() + "\n\n");
@@ -78,7 +77,7 @@ public class Yahtzee {
         Console.displayMessage(String.format("Our winner is %s", winner));
     }
 
-    public List<Integer> pickDice(String name) {
+    private List<Integer> pickDice(String name) {
         String temp = Console.getNumbersToReRoll(name);
         return Console.parseUserSelections((temp == null) ? "0": temp);
     }

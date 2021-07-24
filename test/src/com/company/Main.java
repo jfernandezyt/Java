@@ -14,6 +14,35 @@ import java.util.*;
 //}
 
 class Main {
+    public static void checkMagazine(List<String> magazine, List<String> note) {
+        // Write your code here
+        Map<String, Integer> magazineMap = new HashMap<>();
+        Map<String, Integer> noteMap = new HashMap<>();
+
+        for(String element: magazine){
+            if(!magazineMap.containsKey(element)){
+                magazineMap.put(element, 1);
+            }else{
+                magazineMap.put(element, magazineMap.get(element) + 1);
+            }
+        }
+
+        for(String noteElement : note){
+            if(!magazineMap.containsKey(noteElement)){
+                System.out.println("No");
+                return;
+            }else{
+                if(magazineMap.get(noteElement) < 1){
+                    System.out.println("No");
+                    return;
+                }else{
+                    magazineMap.put(noteElement, magazineMap.get(noteElement) - 1);
+                }
+            }
+        }
+        System.out.println("Yes");
+
+    }
 
     //    public static Node removeDuplicates(Node head) {
 //
@@ -113,27 +142,6 @@ class Main {
 //    }
 
     public static void main(String args[]) {
-        //Scanner sc = new Scanner(System.in);
 
-//        Node head = null;
-//        int T = sc.nextInt();
-//
-//        Random random = new Random();
-//        for()
-//        while (T-- > 0) {
-//            int ele = sc.nextInt();
-//            head = insert(head, ele);
-//        }
-//        head = removeDuplicates(head);
-//        display(head);
-//        Dog dog = new Dog("german", 3, 60, 4, "large", true, "wew", "brown");
-//        doStuff(dog);
-//        System.out.println("look "+ dog.getName());
-
-//        System.out.println("look: ");
-//        int test = sc.nextInt();
-
-        System.out.println(Thread.activeCount());
-        System.out.println(Runtime.getRuntime().availableProcessors());
     }
 }
