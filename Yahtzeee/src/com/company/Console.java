@@ -20,11 +20,10 @@ public class Console {
     }
 
     public static String getNumbersToReRoll(String playerName) {
-        scanner.nextLine();
         displayMessage("What Numbers would you like to re-roll (Player: " + playerName + ")  (1-5) ? ");
         String temp = scanner.nextLine();
         if(temp.equals("")) return null;
-        return scanner.nextLine();
+        return temp;
     }
 
     public static int getNumberInput(String message) {
@@ -32,12 +31,12 @@ public class Console {
         return scanner.nextInt();
     }
     public static void nextLine(){
-        scanner.nextLine();
+        String consumer = scanner.nextLine();
     }
 
     public static String getStringInput(String message) {
         displayMessage(message);
-        return scanner.next();
+        return scanner.nextLine();
     }
 
     public static void displayMessage(String message) {

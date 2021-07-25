@@ -3,36 +3,15 @@ package com.company;
 
 import java.util.Arrays;
 /*TODO
- *  calculate bonus points
- *  calculate the chance
- *  add multiple Yahtzee logic
- *  add user interface for all new implementations*/
+ *  add a method to total all the scores on the scorecard
+ *  add the bonus points method somewhere to update the bonus points row in scorecard
+ *  add a more user friendly display for the nulls in the scorecard
+ *  on the final roll of a turn the user should be able to see which rows haven't been marked yet, in case they need to mark one of the fields as a 0*/
 public class Main {
 
     public static void main(String[] args) {
-//        Yahtzee myGame = new Yahtzee();
-//
-//        myGame.runGame();
-        Die die1 = new Die();
-        Die die2 = new Die();
-        Die die3 = new Die();
-        Die die4 = new Die();
-        Die die5 = new Die();
-        die1.faceUpValue = 1;
-        die2.faceUpValue = 1;
-        die3.faceUpValue = 4;
-        die4.faceUpValue = 4;
-        die5.faceUpValue = 4;
+        Yahtzee myGame = new Yahtzee();
 
-
-        ScoreCard sc = new ScoreCard();
-
-        sc.showPossibleScores(new Cup(Arrays.asList(
-                die1,
-                die2,
-                die3,
-                die4,
-                die5))
-        );
+        myGame.runGame();
     }
 }

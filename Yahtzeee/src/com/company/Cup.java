@@ -4,9 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Cup {
-    /*
-    List<Die> dice
-     */
     private List<Die> dice = new ArrayList<>();
 
     public Cup() {
