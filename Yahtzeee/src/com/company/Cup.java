@@ -11,11 +11,9 @@ public class Cup {
             dice.add(new Die());
         }
     }
-
     public Cup(List<Die> dice) {
         this.dice = dice;
     }
-
     public void  roll(){
         for(Die die : dice)
             die.roll();
@@ -25,16 +23,14 @@ public class Cup {
         dice.get(unlockedSelection).roll();
 
     }
-    public void  roll(List<Integer> unlockedSelections){
+    public void roll(List<Integer> unlockedSelections){
         for (int index: unlockedSelections)
             roll(index);
 
     }
-
     public List<Die> getDice() {
         return dice;
     }
-
     public String displayDice(){
         StringBuilder output = new StringBuilder();
         for(Die die : dice)

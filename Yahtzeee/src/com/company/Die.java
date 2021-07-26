@@ -15,4 +15,11 @@ public class Die {
     public void roll(){
         faceUpValue = (int) ((Math.random() * numberOfSides) + 1);
     }
+
+    @Override
+    public String toString() {
+        return "Die{" +
+                "faceUpValue=" + faceUpValue +
+                '}';
+    }
 }

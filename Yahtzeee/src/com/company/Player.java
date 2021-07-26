@@ -7,7 +7,6 @@ public class Player {
     private final String name;
     private ScoreCard scoreCard = new ScoreCard();
     public Cup cup;
-    public int score = 0;
 
     public Player(String name, Cup cup) {
         this.name = name;
@@ -32,6 +31,8 @@ public class Player {
                 int value = possibleScores.get(key);
                 scoreCard.markScore(key, value);
             }
+        }else{
+            scoreCard.markScore(key, 0);
         }
     }
 
@@ -39,16 +40,12 @@ public class Player {
     public String toString() {
         return "Player{" +
                 "name='" + name + '\'' +
-                ", score=" + score +
+                ", scoreCard=" + scoreCard +
                 '}';
     }
 
     public String getName() {
         return name;
-    }
-
-    public int getScore() {
-        return score;
     }
 
     public ScoreCard getScoreCard() {

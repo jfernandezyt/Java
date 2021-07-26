@@ -3,7 +3,8 @@ package com.company;
 import java.util.*;
 
 public class ScoreCard {
-    private LinkedHashMap<String, Integer> rows;
+    public LinkedHashMap<String, Integer> rows;
+    private int bonusFieldsTracker = 0;
 
     public ScoreCard() {
         rows = new LinkedHashMap<>();
@@ -21,10 +22,12 @@ public class ScoreCard {
         rows.put("LG straight", null);
         rows.put("Yahtzee", null);
         rows.put("Chance", null);
+        rows.put("Total", null);
     }
 
     public LinkedHashMap<String, Integer> getPossibleScores(Cup currentCup) {
         LinkedHashMap<Integer, Integer> freq = new LinkedHashMap<>();
+
         currentCup.getDice().stream()
                 .map(die -> die.faceUpValue)
                 .forEach((dieValue) -> {
@@ -39,65 +42,6 @@ public class ScoreCard {
         LinkedHashMap<String, Integer> possibleScoresLower = calculateLowerSection(freq);
         return merge(possibleScoresUpper, possibleScoresLower);
     }
-
-    private LinkedHashMap<String, Integer> calculateLowerSection(LinkedHashMap<Integer, Integer> freq) {
-        LinkedHashMap<String, Integer> possibleScores = new LinkedHashMap<>();
-
-        if (freq.containsValue(5)) {
-            if (rows.get("Yahtzee") == null) {
-                possibleScores.put("Yahtzee", 50);
-            } else {
-                rows.put("Yahtzee #2", 100);
-            }
-        } else if (freq.size() > 3 && rows.get("SM straight") == null || freq.size() > 3 && rows.get("LG straight") == null) {
-            if (freq.size() == 5) {
-
-                possibleScores.put("LG straight", 40);
-            } else if (freq.size() == 4) {
-
-                List<Integer> list = new ArrayList<Integer>(freq.values());
-                boolean isSMStraight = isSmallStraight(list);
-                if (isSMStraight) {
-                    possibleScores.put("SM straight", 30);
-                }
-            }
-        } else if (rows.get("Full House") == null && freq.containsValue(3) && freq.containsValue(2)) {
-            possibleScores.put("Full House", 25);
-            if(rows.get("3 of a kind") == null){
-                int sum = 0;
-                for (Map.Entry<Integer, Integer> entry : freq.entrySet()) {
-                    sum += (entry.getKey() * entry.getValue());
-                }
-                possibleScores.put("3 of a kind", sum);
-            }
-
-        } else if (rows.get("4 of a kind") == null || rows.get("3 of a kind") == null) {
-            int sum = 0;
-            if (freq.containsValue(4)) {
-                for (Map.Entry<Integer, Integer> entry : freq.entrySet()) {
-                    sum += (entry.getKey() * entry.getValue());
-                }
-                possibleScores.put("4 of a kind", sum);
-                if (rows.get("3 of a kind") == null) {
-                    possibleScores.put("3 of a kind", sum);
-                }
-            } else if (freq.containsValue(3)) {
-                sum = 0;
-                for (Map.Entry<Integer, Integer> entry : freq.entrySet()) {
-                    sum += (entry.getKey() * entry.getValue());
-                }
-                possibleScores.put("3 of a kind", sum);
-            }
-        }else if (rows.get("Chance") == null){
-            int sum = 0;
-            for (Map.Entry<Integer, Integer> entry : freq.entrySet()) {
-                sum += (entry.getKey() * entry.getValue());
-            }
-            possibleScores.put("Chance", sum);
-        }
-        return possibleScores;
-    }
-
     private LinkedHashMap<String, Integer> calculateUpperSection(LinkedHashMap<Integer, Integer> freq) {
         LinkedHashMap<String, Integer> possibleScores = new LinkedHashMap<>();
 
@@ -119,7 +63,42 @@ public class ScoreCard {
 
         return possibleScores;
     }
+    private LinkedHashMap<String, Integer> calculateLowerSection(LinkedHashMap<Integer, Integer> freq) {
+        LinkedHashMap<String, Integer> possibleScores = new LinkedHashMap<>();
+        if (freq.containsValue(5)) {
+            if (rows.get("Yahtzee") != null)
+                rows.put("Yahtzee #2", 100);
 
+            possibleScores.put("Yahtzee", 50);
+        } else if (freq.size() > 3 && rows.get("SM straight") == null || freq.size() > 4 && rows.get("LG straight") == null) {
+            if (freq.size() == 5) {
+                possibleScores.put("LG straight", 40);
+            } else if (freq.size() == 4) {
+                if (isSmallStraight(new ArrayList<>(freq.keySet()))) {
+                    possibleScores.put("SM straight", 30);
+                }
+            }
+        } else if (rows.get("Full House") == null && freq.containsValue(3) && freq.containsValue(2)) {
+            possibleScores.put("Full House", 25);
+            if (rows.get("3 of a kind") == null) {
+                possibleScores.put("3 of a kind", sum(freq));
+            }
+        } else if (rows.get("4 of a kind") == null && freq.containsValue(4) ||
+                rows.get("3 of a kind") == null && freq.containsValue(3)) {
+
+            if (freq.containsValue(4)) {
+                int value = sum(freq);
+                possibleScores.put("4 of a kind", value);
+                if (rows.get("3 of a kind") == null) {
+                    possibleScores.put("3 of a kind", value);
+                }
+            } else if (freq.containsValue(3)) {
+                possibleScores.put("3 of a kind", sum(freq));
+            }
+        }
+        if (rows.get("Chance") == null) possibleScores.put("Chance", sum(freq));
+        return possibleScores;
+    }
     private LinkedHashMap<String, Integer> merge(LinkedHashMap<String, Integer> first, LinkedHashMap<String, Integer> second) {
         LinkedHashMap<String, Integer> newList = new LinkedHashMap<>();
 
@@ -128,11 +107,12 @@ public class ScoreCard {
 
         return newList;
     }
-
     public void markScore(String key, int value) {
-        rows.put(key ,value);
+        rows.put(key, value);
+        if(bonusFieldsTracker < 63)
+            bonusPointsTrackerUpdate();
+        totalPointsUpdate();
     }
-
     private boolean isSmallStraight(List<Integer> list) {
         boolean isSMStraight = false;
         Collections.sort(list);
@@ -151,23 +131,56 @@ public class ScoreCard {
         }
         return isSMStraight;
     }
-
     public void displayScoreCard() {
+        Console.displayMessage("\n\n");
         for (Map.Entry<String, Integer> entry : rows.entrySet()) {
-            System.out.println(String.format("%s: %s %n", entry.getKey(), entry.getValue()));
+            if (entry.getValue() != null) {
+                Console.displayMessage(String.format("%s: %s", entry.getKey(), entry.getValue()));
+            } else {
+                Console.displayMessage(String.format("%s: %s", entry.getKey(), ""));
+            }
+            Console.displayMessage("\n_______________________________________\n");
         }
     }
-    private void bonusPointsUpdate(){
+    private void bonusPointsTrackerUpdate() {
         int counter = 1;
         int bonusPoints = 0;
-        for(Map.Entry entry : rows.entrySet()){
-            if(counter < 7){
+        for (Map.Entry entry : rows.entrySet()) {
+            System.out.println("Entry -------------->" + entry);
+            if (entry.getValue() != null) {
                 bonusPoints += (Integer) entry.getValue();
-            }else {
-                break;
             }
+
             counter++;
+
+            if (counter > 6) break;
         }
-        rows.put("bonus", bonusPoints);
+        bonusFieldsTracker = bonusPoints;
+    }
+    private void totalPointsUpdate(){
+        int totalPoints = 0;
+        if(bonusFieldsTracker >  62) rows.put("bonus", 35);
+        for(Map.Entry entry : rows.entrySet()){
+            if(entry.getKey() != "Total"){
+                if(entry.getValue() != null)
+                    totalPoints += (Integer) entry.getValue();
+            }
+        }
+        rows.put("Total", totalPoints);
+    }
+    private int sum(LinkedHashMap<Integer, Integer> freq){
+        int sum = 0;
+        for (Map.Entry<Integer, Integer> entry : freq.entrySet()) {
+            sum += (entry.getKey() * entry.getValue());
+        }
+        return sum;
+    }
+
+    @Override
+    public String toString() {
+        return "ScoreCard{" +
+                "rows=" + rows +
+                ", bonusFieldsTracker=" + bonusFieldsTracker +
+                '}';
     }
 }

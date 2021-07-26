@@ -13,9 +13,8 @@ public class Yahtzee {
 
     public Yahtzee() {
         setup();
-        ROUNDS = (players.size() * 14);
+        ROUNDS = (players.size() * 13);
     }
-
     private void setup() {
         Cup gamesCup = new Cup();
         int numberOfPlayers = 0;
@@ -31,50 +30,6 @@ public class Yahtzee {
             players.add(new Player(name, gamesCup));
         }
     }
-
-    private void runTurn(Player currentPlayer) {
-        int currentRoll = 0;
-        Console.displayMessage(String.format("New turn, it is %s('s) turn !! %n", currentPlayer.getName()));
-        currentPlayer.cup.roll();
-        while (currentRoll < AMOUNT_OF_ROLLS_PER_TURN) {
-            Console.displayMessage("\nCurrent roll: " + (currentRoll + 1) + "\n");
-            if (currentRoll < 2) {
-                Console.displayMessage("\n" + currentPlayer.cup.displayDice() + "\n");
-                Console.displayMessage("\nThese are your current possible scores: \n");
-                currentPlayer.displayPossibleScores();
-                String decision = Console.getStringInput("\nTo re-roll type 'roll', otherwise please enter the name of the row to mark for your score (Ex: ones or Full House): ");
-                if (decision.equals("roll")) {
-                    currentPlayer.cup.roll(pickDice(currentPlayer.getName()));
-                } else {
-                    currentPlayer.markScore(decision);
-                    Console.displayMessage("\n\n");
-                    currentPlayer.getScoreCard().displayScoreCard();
-                    return;
-                }
-            }else{
-                Console.displayMessage("\n" + currentPlayer.cup.displayDice() + "\n");
-                Console.displayMessage("\nThese are your current possible scores: \n");
-                currentPlayer.displayPossibleScores();
-                String key = Console.getStringInput("\nPlease enter the name of the row to mark for your score (Ex: ones or Full House): ");
-                currentPlayer.markScore(key);
-                Console.displayMessage("\n\n");
-                currentPlayer.getScoreCard().displayScoreCard();
-                return;
-            }
-
-            currentRoll++;
-        }
-    }
-
-    private void runRound(int roundNumber) {
-        for (Player activePlayer : players) {
-            Console.displayMessage("\n\n-----------------------------------------------------------------------\n");
-            Console.displayMessage("\nCurrent round: " + (roundNumber + 1));
-            Console.displayMessage("\nCurrent Player Turn: " + activePlayer.getName() + "\n\n");
-            runTurn(activePlayer);
-        }
-    }
-
     public void runGame() {
         int roundNumber = 0;
 
@@ -84,22 +39,72 @@ public class Yahtzee {
         }
         determineWinner();
     }
-
+    private void runRound(int roundNumber) {
+        for (Player activePlayer : players) {
+            Console.displayMessage("\n\n-----------------------------------------------------------------------\n");
+            Console.displayMessage("\nCurrent round: " + (roundNumber + 1));
+            Console.displayMessage("\nCurrent Player Turn: " + activePlayer.getName() + "\n\n");
+            runTurn(activePlayer);
+        }
+    }
+    private void runTurn(Player currentPlayer) {
+        int currentRoll = 0;
+        Console.displayMessage(String.format("New turn, it is %s('s) turn !! %n", currentPlayer.getName()));
+        currentPlayer.cup.roll();
+        while (currentRoll < AMOUNT_OF_ROLLS_PER_TURN) {
+            Console.displayMessage("\nCurrent roll: " + (currentRoll + 1) + "\n");
+            showDiceAndPossibleScores(currentPlayer);
+            if (currentRoll < 2) {
+                String decision = makeDecision("\nTo re-roll type 'roll', otherwise please enter the name of the row to mark for your score (Ex: ones or Full House): ");
+                if (decision.equals("roll")) {
+                    currentPlayer.cup.roll(pickDice(currentPlayer.getName()));
+                } else {
+                    currentPlayer.markScore(decision);
+                    currentPlayer.getScoreCard().displayScoreCard();
+                    return;
+                }
+            }else{
+                currentPlayer.getScoreCard().displayScoreCard();
+                String key = makeDecision("\nPlease enter the name of the row to mark for your score (Ex: ones or Full House): ");
+                currentPlayer.markScore(key);
+                currentPlayer.getScoreCard().displayScoreCard();
+            }
+            currentRoll++;
+        }
+    }
+    private String makeDecision(String message){
+        String decision = Console.getStringInput(message);
+        boolean isValidDecision = isValidDecision(decision);
+        while(!isValidDecision){
+            decision = Console.getStringInput(message);
+            isValidDecision = isValidDecision(decision);
+        }
+        return decision.trim();
+    }
     private void determineWinner() {
         Player winner = players.get(0);
 
         for (Player player : players) {
-            if (winner.getScore() < player.getScore())
+            if (winner.getScoreCard().rows.get("Total") < player.getScoreCard().rows.get("Total"))
                 winner = player;
 
-            Console.displayMessage(String.format("Name: %s | Score = %s %n", player.getName(), player.getScore()));
+            Console.displayMessage(String.format("Name: %s | Score = %s %n", player.getName(), player.getScoreCard().rows.get("Total")));
         }
-        Console.displayMessage(String.format("Our winner is %s", winner));
+        Console.displayMessage(String.format("Our winner is %s with a score of %s !!!", winner, winner.getScoreCard().rows.get("Total")));
     }
-
     private List<Integer> pickDice(String name) {
         String temp = Console.getNumbersToReRoll(name);
         return Console.parseUserSelections((temp == null) ? "0" : temp);
+    }
+    private boolean isValidDecision(String decision){
+        ScoreCard temp = new ScoreCard();
+        decision = decision.trim();
+        return temp.rows.containsKey(decision) || decision.equals("roll");
+    }
+    private void showDiceAndPossibleScores(Player currentPlayer){
+        Console.displayMessage("\n" + currentPlayer.cup.displayDice() + "\n");
+        Console.displayMessage("\nThese are your current possible scores: \n");
+        currentPlayer.displayPossibleScores();
     }
 
 }
