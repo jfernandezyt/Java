@@ -65,38 +65,38 @@ public class ScoreCard {
     }
     private LinkedHashMap<String, Integer> calculateLowerSection(LinkedHashMap<Integer, Integer> freq) {
         LinkedHashMap<String, Integer> possibleScores = new LinkedHashMap<>();
+        int sum = sum(freq);
         if (freq.containsValue(5)) {
             if (rows.get("Yahtzee") != null)
                 rows.put("Yahtzee #2", 100);
-
-            possibleScores.put("Yahtzee", 50);
+            else
+                possibleScores.put("Yahtzee", 50);
         } else if (freq.size() > 3 && rows.get("SM straight") == null || freq.size() > 4 && rows.get("LG straight") == null) {
-            if (freq.size() == 5) {
+            if (freq.size() == 5)
                 possibleScores.put("LG straight", 40);
-            } else if (freq.size() == 4) {
-                if (isSmallStraight(new ArrayList<>(freq.keySet()))) {
+            else if (freq.size() == 4) {
+                if (isSmallStraight(new ArrayList<>(freq.keySet())))
                     possibleScores.put("SM straight", 30);
-                }
+
             }
         } else if (rows.get("Full House") == null && freq.containsValue(3) && freq.containsValue(2)) {
             possibleScores.put("Full House", 25);
-            if (rows.get("3 of a kind") == null) {
-                possibleScores.put("3 of a kind", sum(freq));
-            }
+            if (rows.get("3 of a kind") == null)
+                possibleScores.put("3 of a kind", sum);
+
         } else if (rows.get("4 of a kind") == null && freq.containsValue(4) ||
                 rows.get("3 of a kind") == null && freq.containsValue(3)) {
 
             if (freq.containsValue(4)) {
-                int value = sum(freq);
-                possibleScores.put("4 of a kind", value);
-                if (rows.get("3 of a kind") == null) {
-                    possibleScores.put("3 of a kind", value);
-                }
-            } else if (freq.containsValue(3)) {
-                possibleScores.put("3 of a kind", sum(freq));
-            }
+                possibleScores.put("4 of a kind", sum);
+                if (rows.get("3 of a kind") == null)
+                    possibleScores.put("3 of a kind", sum);
+
+            } else if (freq.containsValue(3))
+                possibleScores.put("3 of a kind", sum);
+
         }
-        if (rows.get("Chance") == null) possibleScores.put("Chance", sum(freq));
+        if (rows.get("Chance") == null) possibleScores.put("Chance", sum);
         return possibleScores;
     }
     private LinkedHashMap<String, Integer> merge(LinkedHashMap<String, Integer> first, LinkedHashMap<String, Integer> second) {

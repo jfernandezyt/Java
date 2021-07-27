@@ -90,7 +90,7 @@ public class Yahtzee {
 
             Console.displayMessage(String.format("Name: %s | Score = %s %n", player.getName(), player.getScoreCard().rows.get("Total")));
         }
-        Console.displayMessage(String.format("Our winner is %s with a score of %s !!!", winner, winner.getScoreCard().rows.get("Total")));
+        Console.displayMessage(String.format("Our winner is %s with a score of %s !!!", winner.getName(), winner.getScoreCard().rows.get("Total")));
     }
     private List<Integer> pickDice(String name) {
         String temp = Console.getNumbersToReRoll(name);
@@ -102,7 +102,7 @@ public class Yahtzee {
         return temp.rows.containsKey(decision) || decision.equals("roll");
     }
     private void showDiceAndPossibleScores(Player currentPlayer){
-        Console.displayMessage("\n" + currentPlayer.cup.displayDice() + "\n");
+        Console.displayMessage("\n" + currentPlayer.cup.displayDice());
         Console.displayMessage("\nThese are your current possible scores: \n");
         currentPlayer.displayPossibleScores();
     }
