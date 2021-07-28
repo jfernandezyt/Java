@@ -4,7 +4,9 @@ public class Main {
     /**
      *
      * TODO
-     *  refactor turnOrder so that it has the person with the highest rolled die first     *
+     *  keep testing game
+     *      make sure dice are getting removed when the method runs
+     *      make sure the calls are correct
      */
     public static void main(String[] args) {
 	    LiarsDice game = new LiarsDice();

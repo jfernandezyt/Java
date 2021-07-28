@@ -43,20 +43,22 @@ public class LiarsDice {
         doFrequency();
         displayAllDice();
         while (true) {
-            for (int i = 0; i < playerList.size(); i++) {
+            for (int i = 0; i < turnOrder.size(); i++) {
+                Console.displayMessage(String.format("%nIt is now %s's turn !%n", turnOrder.get(i).name));
                 if (counter == 0) {
-                    isRoundDone = runTurn(playerList.get(i), true);
+                    isRoundDone = runTurn(turnOrder.get(i), true);
                 } else {
-                    isRoundDone = runTurn(playerList.get(i), false);
+                    isRoundDone = runTurn(turnOrder.get(i), false);
                 }
                 if (isRoundDone) break;
-                if ((i + 1) == playerList.size()) i = 0;
+                if ((i + 1) == turnOrder.size()) i = 0;
                 counter++;
             }
             if (isRoundDone) break;
         }
-    }
+        playerCurrentBid = null;
 
+    }
     private boolean runTurn(Player currentPlayer, boolean isFirstPlayer) {
         String result;
         if (isFirstPlayer) {
@@ -81,13 +83,11 @@ public class LiarsDice {
             }
         } while (true);
     }
-
     private void rollAllDice() {
         for (Player player : playerList) {
             player.roll();
         }
     }
-
     private void doFrequency() {
         Map<Integer, Integer> freq = new HashMap<>();
         for (Player player : playerList) {
@@ -100,12 +100,14 @@ public class LiarsDice {
         }
         this.freq = freq;
     }
-
     private void makeBid(Player currentPlayer) {
-        do {
+        if(playerCurrentBid == null){
             playerCurrentBid = new Player("temp", new Cup());
             playerCurrentBid.makeBid(new int[]{0, 0});
+        }
+        do {
             String result = Console.getStringInput("Please enter the die face up value and frequency of the bid (Ex. 2 x3 or 6 x5): ");
+            boolean isValid = isValidBid(result);
             if (isValidBid(result)) {
                 currentPlayer.makeBid(Console.parseBid(result));
                 this.playerCurrentBid = currentPlayer;
@@ -115,7 +117,6 @@ public class LiarsDice {
             }
         } while (true);
     }
-
     private void callLiar(Player currentPlayer) {
         int frequency = freq.get(playerCurrentBid.currentBid.faceUpValue);
         if (frequency < playerCurrentBid.currentBid.frequency) {
@@ -140,29 +141,31 @@ public class LiarsDice {
             }
         }
     }
-
     private boolean isValidBid(String bid) {
         String[] result = bid.split(" x");
         int frequency = -1;
         int faceUpValue = -1;
 
-        if (result.length > 2) {
+        if (result.length != 2) {
             return false;
         }
         frequency = Integer.parseInt(result[1]);
         faceUpValue = Integer.parseInt(result[0]);
 
-        if (frequency < playerCurrentBid.currentBid.frequency)
+        if (frequency < playerCurrentBid.currentBid.frequency) {
+            Console.displayMessage("\nThe frequency of the bid needs to be increased\n");
             return false;
+        }
 
-        if (faceUpValue < playerCurrentBid.currentBid.faceUpValue &&
-                frequency <= playerCurrentBid.currentBid.frequency)
+        if (faceUpValue <= playerCurrentBid.currentBid.faceUpValue &&
+                frequency <= playerCurrentBid.currentBid.frequency) {
+            Console.displayMessage("\nThe frequency or the face up value of the bid needs to be increased\n");
             return false;
+        }
 
         return true;
 
     }
-
     private void determineOrder() {
         LinkedHashMap<Player, Integer> map = new LinkedHashMap<>();
         int max = 0;
@@ -182,11 +185,11 @@ public class LiarsDice {
         if (reRollNeeded) {
             turnOrder = reRoll(map, max);
         } else {
+            map = sortByValue(map);
             turnOrder = new LinkedList<>(map.keySet());
         }
     }
-
-    public LinkedList<Player> reRoll(LinkedHashMap<Player, Integer> map, int oldMax) {
+    private LinkedList<Player> reRoll(LinkedHashMap<Player, Integer> map, int oldMax) {
         LinkedHashMap<Player, Integer> clone = new LinkedHashMap<>(map);
         boolean reRollNeeded = true;
         Die die = new Die();
@@ -218,12 +221,11 @@ public class LiarsDice {
             reRollNeeded = reRollNeeded(clone, newMax);
         }
         map.putAll(clone);
+        map = sortByValue(map);
         return new LinkedList<Player>(map.keySet());
     }
-
     private boolean reRollNeeded(LinkedHashMap<Player, Integer> map, int max) {
         int count = 0;
-        List<Integer> indexToReRoll = new ArrayList<>();
         for (Map.Entry entry : map.entrySet()) {
             if ((Integer) entry.getValue() == max) {
                 count++;
@@ -233,18 +235,19 @@ public class LiarsDice {
 
         return false;
     }
-
     private void reOrderTurnList(Player firstPlayer) {
         turnOrder.remove(firstPlayer);
         turnOrder.addFirst(firstPlayer);
     }
-    private void displayTurnOrder(){
+    private void displayTurnOrder() {
         System.out.println(turnOrder);
     }
+    @Deprecated
     private void displayAllDice() {
         System.out.println(freq);
     }
-//    public void setTurnOrder() {
+
+    //    public void setTurnOrder() {
 //        Die die = new Die();
 //        Map<Player, Integer> playerRolls = new HashMap<>();
 //        for (Player player : playerList) {
@@ -277,15 +280,15 @@ public class LiarsDice {
 //
 //    }
 //
-//    public static <K, V extends Comparable<? super V>> Map<K, V> sortByValue(Map<K, V> map) {
-//        List<Map.Entry<K, V>> list = new ArrayList<>(map.entrySet());
-//        list.sort((Comparator<? super Map.Entry<K, V>>) Map.Entry.comparingByValue().reversed());
-//
-//        Map<K, V> result = new LinkedHashMap<>();
-//        for (Map.Entry<K, V> entry : list) {
-//            result.put(entry.getKey(), entry.getValue());
-//        }
-//
-//        return result;
-//    }
+    public <K, V extends Comparable<? super V>> LinkedHashMap<K, V> sortByValue(LinkedHashMap<K, V> map) {
+        List<Map.Entry<K, V>> list = new ArrayList<>(map.entrySet());
+        Collections.sort(list, (Map.Entry e1, Map.Entry e2) -> (Integer) e2.getValue() - (Integer) e1.getValue());
+
+        LinkedHashMap<K, V> result = new LinkedHashMap<>();
+        for (Map.Entry<K, V> entry : list) {
+            result.put(entry.getKey(), entry.getValue());
+        }
+
+        return result;
+    }
 }
