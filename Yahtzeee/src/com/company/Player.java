@@ -5,7 +5,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class Player {
     private final String name;
-    private ScoreCard scoreCard = new ScoreCard();
+    public  ScoreCard scoreCard = new ScoreCard();
     public Cup cup;
 
     public Player(String name, Cup cup) {
@@ -46,9 +46,5 @@ public class Player {
 
     public String getName() {
         return name;
-    }
-
-    public ScoreCard getScoreCard() {
-        return scoreCard;
     }
 }

@@ -28,7 +28,7 @@ public class ScoreCard {
     public LinkedHashMap<String, Integer> getPossibleScores(Cup currentCup) {
         LinkedHashMap<Integer, Integer> freq = new LinkedHashMap<>();
 
-        currentCup.getDice().stream()
+        currentCup.dice.stream()
                 .map(die -> die.faceUpValue)
                 .forEach((dieValue) -> {
                     if (!freq.containsKey(dieValue)) {

@@ -60,14 +60,14 @@ public class Yahtzee {
                     currentPlayer.cup.roll(pickDice(currentPlayer.getName()));
                 } else {
                     currentPlayer.markScore(decision);
-                    currentPlayer.getScoreCard().displayScoreCard();
+                    currentPlayer.scoreCard.displayScoreCard();
                     return;
                 }
             }else{
-                currentPlayer.getScoreCard().displayScoreCard();
+                currentPlayer.scoreCard.displayScoreCard();
                 String key = makeDecision("\nPlease enter the name of the row to mark for your score (Ex: ones or Full House): ");
                 currentPlayer.markScore(key);
-                currentPlayer.getScoreCard().displayScoreCard();
+                currentPlayer.scoreCard.displayScoreCard();
             }
             currentRoll++;
         }
@@ -85,12 +85,12 @@ public class Yahtzee {
         Player winner = players.get(0);
 
         for (Player player : players) {
-            if (winner.getScoreCard().rows.get("Total") < player.getScoreCard().rows.get("Total"))
+            if (winner.scoreCard.rows.get("Total") < player.scoreCard.rows.get("Total"))
                 winner = player;
 
-            Console.displayMessage(String.format("Name: %s | Score = %s %n", player.getName(), player.getScoreCard().rows.get("Total")));
+            Console.displayMessage(String.format("Name: %s | Score = %s %n", player.getName(), player.scoreCard.rows.get("Total")));
         }
-        Console.displayMessage(String.format("Our winner is %s with a score of %s !!!", winner.getName(), winner.getScoreCard().rows.get("Total")));
+        Console.displayMessage(String.format("Our winner is %s with a score of %s !!!", winner.getName(), winner.scoreCard.rows.get("Total")));
     }
     private List<Integer> pickDice(String name) {
         String temp = Console.getNumbersToReRoll(name);

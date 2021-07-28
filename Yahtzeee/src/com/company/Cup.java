@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Cup {
-    private List<Die> dice = new ArrayList<>();
+    public List<Die> dice = new ArrayList<>();
 
     public Cup() {
         while(dice.size() < 5){
@@ -27,9 +27,6 @@ public class Cup {
         for (int index: unlockedSelections)
             roll(index);
 
-    }
-    public List<Die> getDice() {
-        return dice;
     }
     public String displayDice(){
         String output = "";

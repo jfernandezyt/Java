@@ -143,5 +143,15 @@ class Main {
 
     public static void main(String args[]) {
 
+        Map<Integer, Integer> map = new HashMap<>();
+        map.put(1, 10);
+        map.put(2, 20);
+        map.put(3, 10);
+        map.put(4, 20);
+
+        Map<Integer, Integer> clone = new HashMap<>(map);
+        clone.put(2, 15);
+        map.putAll(clone);
+        System.out.println(map +  "----------------" + clone);
     }
 }
