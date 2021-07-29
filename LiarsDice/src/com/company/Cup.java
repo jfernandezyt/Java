@@ -11,6 +11,12 @@ public class Cup {
             dice.add(new Die());
         }
     }
+
+    public Cup(int amountOfDice) {
+        for(int i = 0; i < amountOfDice; i++){
+            dice.add(new Die());
+        }
+    }
     public Cup(List<Die> dice) {
         this.dice = dice;
     }

@@ -16,16 +16,19 @@ public class LiarsDice {
 
     private void setup() {
         int numberOfPlayers = 0;
-
+        int amountOfDice = 0;
         do {
             numberOfPlayers = Console.getNumberInput("How many players are playing? ");
             Console.nextLine();
         } while (numberOfPlayers < MIN_PLAYERS || numberOfPlayers > MAX_PLAYERS);
-
+        amountOfDice = Console.getNumberInput("\nHow many dice per player ?");
+        Console.nextLine();
         for (int i = 0; i < numberOfPlayers; i++) {
             String name = Console.getStringInput("\nPlayer" + (i + 1) + " name: ");
-            playerList.add(new Player(name, new Cup()));
+            playerList.add(new Player(name, new Cup(amountOfDice)));
         }
+        playerCurrentBid = new Player("temp", new Cup(0));
+        playerCurrentBid.makeBid(new int[]{0,1});
         determineOrder();
         displayTurnOrder();
     }
@@ -118,8 +121,8 @@ public class LiarsDice {
 
     private void makeBid(Player currentPlayer) {
         if (playerCurrentBid == null) {
-            playerCurrentBid = new Player("temp", new Cup());
-            playerCurrentBid.makeBid(new int[]{0, 0});
+            playerCurrentBid = new Player("temp", new Cup(0));
+            playerCurrentBid.makeBid(new int[]{0,1});
         }
         do {
             String result = Console.getStringInput("Please enter the die face up value and frequency of the bid (Ex. 2 x3 or 6 x5): ");
