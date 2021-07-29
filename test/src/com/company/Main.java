@@ -140,18 +140,37 @@ class Main {
 //        }
 //
 //    }
+    private static String stringRepresentingDice(int[] values){
+        String top = "┌───┐";
+        String mid = "│ %s │";
+        String bottom = "└───┘";
+        String tempTop = "";
+        String tempMid = "";
+        String tempBottom = "";
+        for(int i = 0; i < (values.length); i++){
+            tempTop += top + " ";
+            if(i ==0){
+                tempMid = String.format(mid, values[i]) + " ";
+            }else{
+                tempMid += String.format(mid, values[i]) + " ";
+            }
+            tempBottom += bottom + " ";
 
+        }
+        return tempTop + "\n" + tempMid + "\n" + tempBottom;
+//        String temp = "┌───┐   ┌───┐   ┌───┐   ┌───┐   ┌───┐\n";
+//        temp += "│ %s │   │ %s │   │ %s │   │ %s │   │ %s │\n";
+//        temp += "└───┘   └───┘   └───┘   └───┘   └───┘";
+//        temp = String.format(temp, values[0], values[1], values[2], values[3], values[4]);
+//        return temp;
+    }
     public static void main(String args[]) {
-
-        Map<Integer, Integer> map = new HashMap<>();
-        map.put(1, 10);
-        map.put(2, 20);
-        map.put(3, 10);
-        map.put(4, 20);
-
-        Map<Integer, Integer> clone = new HashMap<>(map);
-        clone.put(2, 15);
-        map.putAll(clone);
-        System.out.println(map +  "----------------" + clone);
+        int[] array = new int[5];
+        array[0] = 3;
+        array[1] = 1;
+        array[2] = 5;
+        array[3] = 3;
+        array[4] = 2;
+        System.out.println(stringRepresentingDice(array));
     }
 }

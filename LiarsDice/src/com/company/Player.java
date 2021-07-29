@@ -23,9 +23,12 @@ public class Player {
             die.roll();
 
     }
+    public void showDice(){
+
+    }
 
     public boolean canRemoveDie(){
-        return ((cup.dice.size() - 1) > 1);
+        return ((cup.dice.size() - 1) > 0);
     }
 
     @Override

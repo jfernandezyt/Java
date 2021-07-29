@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.Scanner;
 
 public class Console {
+    private static final int CLEARER = 20;
     private static final Scanner scanner = new Scanner(System.in);
 
     public static int getNumberInput(String message) {
@@ -29,5 +30,12 @@ public class Console {
             arrayInt[i] = Integer.parseInt(array[i]);
         }
         return arrayInt;
+    }
+
+    public static void clearBoard(){
+        for(int i=0; i < CLEARER; i++)
+            System.out.println();
+
+
     }
 }

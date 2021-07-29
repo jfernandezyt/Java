@@ -19,23 +19,34 @@ public class Cup {
             die.roll();
 
     }
-//    public String displayDice(){
-//        String output = "";
-//        int[] array = new int[5];
-//        int counter = 0;
-//        for(Die die : dice) {
-//            array[counter] = die.faceUpValue;
-//            counter++;
-//        }
-//        output = stringRepresentingDice(array);
-//        return output;
-//    }
+    public void displayDice(){
+        String output = "";
+        int[] array = new int[dice.size()];
+        int counter = 0;
+        for(Die die : dice) {
+            array[counter] = die.faceUpValue;
+            counter++;
+        }
+        Console.displayMessage(buildDiceVisual(array));
 
-//    private String stringRepresentingDice(int[] values){
-//        String temp = "┌───┐   ┌───┐   ┌───┐   ┌───┐   ┌───┐\n";
-//        temp += "│ %s │   │ %s │   │ %s │   │ %s │   │ %s │\n";
-//        temp += "└───┘   └───┘   └───┘   └───┘   └───┘";
-//        temp = String.format(temp, values[0], values[1], values[2], values[3], values[4]);
-//        return temp;
-//    }
+    }
+    private String buildDiceVisual(int[] values){
+        String top = "┌───┐";
+        String mid = "│ %s │";
+        String bottom = "└───┘";
+        String tempTop = "";
+        String tempMid = "";
+        String tempBottom = "";
+        for(int i = 0; i < (values.length); i++){
+            tempTop += top + " ";
+            if(i ==0){
+                tempMid = String.format(mid, values[i]) + " ";
+            }else{
+                tempMid += String.format(mid, values[i]) + " ";
+            }
+            tempBottom += bottom + " ";
+
+        }
+        return tempTop + "\n" + tempMid + "\n" + tempBottom;
+    }
 }
