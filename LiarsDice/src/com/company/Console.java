@@ -5,7 +5,7 @@ import java.util.Map;
 import java.util.Scanner;
 
 public class Console {
-    private static final int CLEARER = 20;
+    private static final int CLEARER = 25;
     private static final Scanner scanner = new Scanner(System.in);
 
     public static int getNumberInput(String message) {

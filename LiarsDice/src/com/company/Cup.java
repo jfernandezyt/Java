@@ -36,7 +36,7 @@ public class Cup {
         Console.displayMessage(buildDiceVisual(array));
 
     }
-    private String buildDiceVisual(int[] values){
+     String buildDiceVisual(int[] values){
         String top = "┌───┐";
         String mid = "│ %s │";
         String bottom = "└───┘";

@@ -5,9 +5,8 @@ import java.util.*;
 public class LiarsDice {
     private List<Player> playerList = new ArrayList<>();
     private LinkedList<Player> turnOrder = null;
-    private final int MAX_PLAYERS = 10;
-    private final int MIN_PLAYERS = 2;
-    private Player playerCurrentBid;
+    private Bid currentBid = new Bid(0, 0);
+    private Player playerWithCurrentBid;
     private Map<Integer, Integer> freq = new HashMap<>();
 
     public LiarsDice() {
@@ -15,31 +14,51 @@ public class LiarsDice {
     }
 
     private void setup() {
-        int numberOfPlayers = 0;
-        int amountOfDice = 0;
+        int numberOfPlayers;
+        int amountOfDice;
+        int MAX_PLAYERS = 10;
+        int MIN_PLAYERS = 2;
         do {
             numberOfPlayers = Console.getNumberInput("How many players are playing? ");
             Console.nextLine();
         } while (numberOfPlayers < MIN_PLAYERS || numberOfPlayers > MAX_PLAYERS);
-        amountOfDice = Console.getNumberInput("\nHow many dice per player ?");
-        Console.nextLine();
+
+        do {
+            amountOfDice = Console.getNumberInput("\nHow many dice per player ?");
+            Console.nextLine();
+            if (amountOfDice > 0 && amountOfDice <= 20) {
+                break;
+            }
+            Console.displayMessage("\nEnter a number between 1 and 20");
+        } while (true);
+
         for (int i = 0; i < numberOfPlayers; i++) {
             String name = Console.getStringInput("\nPlayer" + (i + 1) + " name: ");
             playerList.add(new Player(name, new Cup(amountOfDice)));
         }
-        playerCurrentBid = new Player("temp", new Cup(0));
-        playerCurrentBid.makeBid(new int[]{0,1});
         determineOrder();
-        displayTurnOrder();
-    }
+        showTurnOrder();
+    }//25
+
+    private void reOrderTurnList(Player firstPlayer) {
+        turnOrder.remove(firstPlayer);
+        turnOrder.addFirst(firstPlayer);
+    }//4
+
+    private void setTurnOrder(LinkedHashMap<Player, Integer> map) {
+        if (turnOrder == null) turnOrder = new LinkedList<>();
+        for (Map.Entry<Player, Integer> entry : map.entrySet()) {
+            turnOrder.add(entry.getKey());
+        }
+    }//5
 
     public void runGame() {
         while (playerList.size() > 1) {
             runRound();
-
         }
         Console.displayMessage(String.format("%s, was the last player standing, They win the game !", playerList.get(0).name));
-    }
+    }//5
+
     private void runRound() {
         boolean isRoundDone = false;
         int counter = 0;
@@ -48,49 +67,39 @@ public class LiarsDice {
         while (true) {
             for (int i = 0; i < turnOrder.size(); i++) {
                 Console.displayMessage(String.format("%nIt is now %s's turn !%n", turnOrder.get(i).name));
-                if (playerCurrentBid != null) {
+                if (currentBid.faceUpValue > 0) {
                     showCurrentBid();
                 }
                 Console.displayMessage("\nHere is/are your die/dice:\n");
                 turnOrder.get(i).cup.displayDice();
                 Console.displayMessage("\n\n");
+                showRemainingPlayers();
+                showDiceCount();
                 if (counter == 0) {
-                    showRemainingPlayers();
-                    showDiceCount();
                     isRoundDone = runTurn(turnOrder.get(i), true);
-                    Console.clearBoard();
                 } else {
-                    showRemainingPlayers();
-                    showDiceCount();
                     isRoundDone = runTurn(turnOrder.get(i), false);
-                    Console.clearBoard();
                 }
+                Console.clearBoard();
                 if (isRoundDone) break;
                 if ((i + 1) == turnOrder.size()) i = 0;
                 counter++;
             }
             if (isRoundDone) break;
         }
-        playerCurrentBid = null;
-
-    }
+        resetBid();
+    }//29
 
     private boolean runTurn(Player currentPlayer, boolean isFirstPlayer) {
         String result;
         if (isFirstPlayer) {
-            do {
-                //show dice to player
-                makeBid(currentPlayer);
-                //sout many times to clear the dice for the next player
-                return false;
-            } while (true);
+            makeBid(currentPlayer);
+            return false;
         }
         do {
-            //show dice to player
             result = Console.getStringInput("Would you like to make a bid (bid) or call the previous players bluff (call)?");
             if (result.equals("bid")) {
                 makeBid(currentPlayer);
-                //sout many times to clear the dice for the next player
                 return false;
             }
             if (result.equals("call")) {
@@ -98,13 +107,7 @@ public class LiarsDice {
                 return true;
             }
         } while (true);
-    }
-
-    private void rollAllDice() {
-        for (Player player : playerList) {
-            player.roll();
-        }
-    }
+    }//17
 
     private void doFrequency() {
         Map<Integer, Integer> freq = new HashMap<>();
@@ -117,80 +120,7 @@ public class LiarsDice {
             }
         }
         this.freq = freq;
-    }
-
-    private void makeBid(Player currentPlayer) {
-        if (playerCurrentBid == null) {
-            playerCurrentBid = new Player("temp", new Cup(0));
-            playerCurrentBid.makeBid(new int[]{0,1});
-        }
-        do {
-            String result = Console.getStringInput("Please enter the die face up value and frequency of the bid (Ex. 2 x3 or 6 x5): ");
-            boolean isValid = isValidBid(result);
-            if (isValidBid(result)) {
-                currentPlayer.makeBid(Console.parseBid(result));
-                this.playerCurrentBid = currentPlayer;
-                return;
-            } else {
-                Console.displayMessage("\nFormat expected (1 x4) ((Die) x(Frequency))\n\n");
-            }
-        } while (true);
-    }
-
-    private void callLiar(Player currentPlayer) {
-        int frequency = 0;
-        if (freq.containsKey(playerCurrentBid.currentBid.faceUpValue)) {
-            frequency = freq.get(playerCurrentBid.currentBid.faceUpValue);
-        } else {
-            removeDieCurrentBid(currentPlayer);
-            return;
-        }
-
-        if (playerCurrentBid.currentBid.frequency > frequency) {
-            removeDieCurrentBid(currentPlayer);
-        } else {
-            if (!currentPlayer.canRemoveDie()) {
-                playerList.remove(currentPlayer);
-                turnOrder.remove(playerCurrentBid);
-                Console.displayMessage(String.format("%n---- %s called %s's bluff and was wrong ! %s was removed from the game ----", currentPlayer.name, playerCurrentBid.name, currentPlayer.name));
-                Console.displayMessage(String.format("%nThe last bid was die: %s | frequency %s",
-                        playerCurrentBid.currentBid.faceUpValue, playerCurrentBid.currentBid.frequency));
-            } else {
-                currentPlayer.removeDie();
-                reOrderTurnList(currentPlayer);
-                displayTurnOrder();
-                Console.displayMessage(String.format("%n---- %s called %s's bluff and was wrong ! %s loses a die ----", currentPlayer.name, playerCurrentBid.name, currentPlayer.name));
-                Console.displayMessage(String.format("%nThe last bid was die: %s | frequency %s",
-                        playerCurrentBid.currentBid.faceUpValue, playerCurrentBid.currentBid.frequency));
-            }
-        }
-    }
-
-    private boolean isValidBid(String bid) {
-        String[] result = bid.split(" x");
-        int frequency = -1;
-        int faceUpValue = -1;
-
-        if (result.length != 2) {
-            return false;
-        }
-        frequency = Integer.parseInt(result[1]);
-        faceUpValue = Integer.parseInt(result[0]);
-
-        if (frequency < playerCurrentBid.currentBid.frequency) {
-            Console.displayMessage("\nThe frequency of the bid needs to be increased\n");
-            return false;
-        }
-
-        if (faceUpValue <= playerCurrentBid.currentBid.faceUpValue &&
-                frequency <= playerCurrentBid.currentBid.frequency) {
-            Console.displayMessage("\nThe frequency or the face up value of the bid needs to be increased\n");
-            return false;
-        }
-
-        return true;
-
-    }
+    }//11
 
     private void determineOrder() {
         LinkedHashMap<Player, Integer> map = new LinkedHashMap<>();
@@ -208,68 +138,126 @@ public class LiarsDice {
                 max = value;
             }
         }
-        boolean reRollNeeded = reRollNeeded(map, max);
-        if (reRollNeeded) {
+        if (reRollNeeded(max, map)) {
             reRoll(map, max);
         } else {
             map = sortByValue(map);
             turnOrder = new LinkedList<>(map.keySet());
         }
-    }
+    }//22
+
+    private void makeBid(Player currentPlayer) {
+        do {
+            String result = Console.getStringInput("Please enter the die face up value and frequency of the bid (Ex. 2 x3 or 6 x5): ");
+            boolean isValid = isValidBid(result);
+            if (isValid) {
+                int[] arrayBid = Console.parseBid(result);
+                currentBid.faceUpValue = arrayBid[0];
+                currentBid.frequency = arrayBid[1];
+                playerWithCurrentBid = currentPlayer;
+                return;
+            } else {
+                Console.displayMessage("\nFormat expected (1 x4) ((Die) x(Frequency))\n\n");
+            }
+        } while (true);
+    }//14
+
+    private void callLiar(Player currentPlayer) {
+        int frequency;
+        if (freq.containsKey(currentBid.faceUpValue)) {
+            frequency = freq.get(currentBid.faceUpValue);
+        } else {
+            removeDieCurrentBid(currentPlayer);
+            return;
+        }
+        if (currentBid.frequency > frequency) {
+            removeDieCurrentBid(currentPlayer);
+        } else {
+            if (!currentPlayer.canRemoveDie()) {
+                playerList.remove(currentPlayer);
+                turnOrder.remove(currentPlayer);
+                Console.displayMessage(String.format("%n---- %s called %s's bluff and was wrong ! %s was removed from the game ----", currentPlayer.name, playerWithCurrentBid.name, currentPlayer.name));
+            } else {
+                currentPlayer.removeDie();
+                reOrderTurnList(currentPlayer);
+                showTurnOrder();
+                Console.displayMessage(String.format("%n---- %s called %s's bluff and was wrong ! %s loses a die ----", currentPlayer.name, playerWithCurrentBid.name, currentPlayer.name));
+            }
+            Console.displayMessage(String.format("%nThe last bid was die: %s | frequency %s",
+                    currentBid.faceUpValue, currentBid.frequency));
+        }
+    }//24
+
+    private void removeDieCurrentBid(Player currentPlayer) {
+        if (!playerWithCurrentBid.canRemoveDie()) {
+            playerList.remove(playerWithCurrentBid);
+            turnOrder.remove(playerWithCurrentBid);
+            Console.displayMessage(String.format("%n---- %s called %s's bluff and was right ! %s was removed from the game ----", currentPlayer.name, playerWithCurrentBid.name, playerWithCurrentBid.name));
+        } else {
+            playerWithCurrentBid.removeDie();
+            reOrderTurnList(playerWithCurrentBid);
+            showTurnOrder();
+            Console.displayMessage(String.format("%n---- %s called %s's bluff and was right ! %s loses a die -----", currentPlayer.name, playerWithCurrentBid.name, playerWithCurrentBid.name));
+        }
+        Console.displayMessage(String.format("%nThe last bid was die: %s | frequency %s",
+                currentBid.faceUpValue, currentBid.frequency));
+
+    }//16
+
+    private LinkedHashMap<Player, Integer> doReRoll(int max, LinkedHashMap<Player, Integer> map) {
+        Die die = new Die();
+        LinkedHashMap<Player, Integer> reRollers = new LinkedHashMap<>();
+        for (Map.Entry<Player, Integer> entry : map.entrySet()) {
+            if (entry.getValue() == max) {
+                Console.displayMessage(String.format("%n%s, please hit enter to roll your die.", entry.getKey().name));
+                Console.nextLine();
+                die.roll();
+                Console.displayMessage(String.format("%nYou rolled a %s ! %n", die.faceUpValue));
+                reRollers.put(entry.getKey(), die.faceUpValue);
+            }
+        }
+        return reRollers;
+    }//13
 
     private void reRoll(LinkedHashMap<Player, Integer> map, int oldMax) {
-        LinkedHashMap<Player, Integer> reRollers = new LinkedHashMap<>(map);
+        LinkedHashMap<Player, Integer> reRollers = new LinkedHashMap<>();
         LinkedHashMap<Player, Integer> nonReRollers = new LinkedHashMap<>(map);
         boolean reRollNeeded = true;
-        Die die = new Die();
+        int counter = 0;
         int newMax = 0;
         while (true) {
             if (reRollNeeded) {
-                newMax = 0;
-                for (Map.Entry entry : map.entrySet()) {
-                    if ((Integer) entry.getValue() == oldMax) {
-                        nonReRollers.remove((Player) entry.getKey());
-                        Player player = (Player) entry.getKey();
-                        Console.displayMessage(String.format("%n%s, please hit enter to roll your die.", player.name));
-                        Console.nextLine();
-                        die.roll();
-                        int value = die.faceUpValue;
-                        Console.displayMessage(String.format("%nYou rolled a %s ! %n", value));
-                        if (newMax == 0) {
-                            newMax = value;
-                            reRollers.clear();
-                        }
-                        if (newMax < value) {
-                            newMax = value;
-                        }
-                        reRollers.put((Player) entry.getKey(), value);
+                if (counter == 0) {
+                    reRollers = doReRoll(oldMax, map);
+                    for (Map.Entry<Player, Integer> entry : reRollers.entrySet()) {
+                        nonReRollers.remove(entry.getKey());
                     }
+
+                } else {
+                    reRollers = doReRoll(newMax, reRollers);
                 }
+                newMax = reRollers.values()
+                        .stream()
+                        .max(Comparator.naturalOrder())
+                        .get();
+
+                counter++;
             } else {
                 break;
             }
-            reRollNeeded = reRollNeeded(reRollers, newMax);
+            reRollNeeded = reRollNeeded(newMax, reRollers);
         }
-        sortByValue(reRollers);
+        reRollers = sortByValue(reRollers);
+        nonReRollers = sortByValue(nonReRollers);
         setTurnOrder(reRollers);
-        sortByValue(nonReRollers);
         setTurnOrder(nonReRollers);
-    }
+    }//20
 
-    private void setTurnOrder(LinkedHashMap<Player, Integer> map) {
-        if (turnOrder == null) turnOrder = new LinkedList<>();
-        for (Map.Entry entry : map.entrySet()) {
-            turnOrder.add((Player) entry.getKey());
-        }
-    }
-
-    private boolean reRollNeeded(LinkedHashMap<Player, Integer> map, int max) {
-        int count = 0;
+    private boolean reRollNeeded(int max, LinkedHashMap<Player, Integer> map) {
         List<String> names = new ArrayList<>();
-        for (Map.Entry entry : map.entrySet()) {
-            if ((Integer) entry.getValue() == max) {
-                names.add(entry.getKey().toString());
-                count++;
+        for (Map.Entry<Player, Integer> entry : map.entrySet()) {
+            if (entry.getValue() == max) {
+                names.add(entry.getKey().name);
             }
         }
         if (names.size() > 1) {
@@ -280,34 +268,60 @@ public class LiarsDice {
             Console.nextLine();
             return true;
         }
-
         return false;
+    }//16
+
+    private boolean isValidBid(String bid) {
+        String[] result = bid.split(" x");
+        int frequency;
+        int faceUpValue;
+
+        if (result.length != 2) {
+            return false;
+        }
+        frequency = Integer.parseInt(result[1]);
+        faceUpValue = Integer.parseInt(result[0]);
+        if (frequency < currentBid.frequency) {
+            Console.displayMessage("\nThe frequency of the bid needs to be increased\n");
+            return false;
+        }
+        if (faceUpValue <= currentBid.faceUpValue &&
+                frequency <= currentBid.frequency) {
+            Console.displayMessage("\nThe frequency or the face up value of the bid needs to be increased\n");
+            return false;
+        }
+        return true;
+    }//20
+
+    private <K, Integer> LinkedHashMap<K, Integer> sortByValue(LinkedHashMap<K, Integer> map) {
+        List<Map.Entry<K, Integer>> list = new ArrayList<>(map.entrySet());
+        list.sort((Map.Entry<K, Integer> e1, Map.Entry<K, Integer> e2) -> (java.lang.Integer) e2.getValue() - (java.lang.Integer) e1.getValue());
+
+        LinkedHashMap<K, Integer> result = new LinkedHashMap<>();
+        for (Map.Entry<K, Integer> entry : list) {
+            result.put(entry.getKey(), entry.getValue());
+        }
+
+        return result;
+    }//10
+
+    private void rollAllDice() {
+        for (Player player : playerList) {
+            player.roll();
+        }
+    }//4
+
+    private void resetBid() {
+        currentBid = new Bid(0, 0);
     }
 
-    private void reOrderTurnList(Player firstPlayer) {
-        turnOrder.remove(firstPlayer);
-        turnOrder.addFirst(firstPlayer);
-    }
-
-    private void displayTurnOrder() {
+    private void showTurnOrder() {
         Console.displayMessage("\nTurn order: \n");
         for (Player player : turnOrder) {
             Console.displayMessage(player.name + "\n");
         }
 
-    }
-
-    private <K, V extends Comparable<? super V>> LinkedHashMap<K, V> sortByValue(LinkedHashMap<K, V> map) {
-        List<Map.Entry<K, V>> list = new ArrayList<>(map.entrySet());
-        Collections.sort(list, (Map.Entry e1, Map.Entry e2) -> (Integer) e2.getValue() - (Integer) e1.getValue());
-
-        LinkedHashMap<K, V> result = new LinkedHashMap<>();
-        for (Map.Entry<K, V> entry : list) {
-            result.put(entry.getKey(), entry.getValue());
-        }
-
-        return result;
-    }
+    }//6
 
     private void showDiceCount() {
         int counter = 0;
@@ -315,35 +329,20 @@ public class LiarsDice {
             counter += player.cup.dice.size();
         }
         Console.displayMessage(String.format("%nThere are %s dice on the board.%n%n", counter));
-    }
+    }//6
 
     private void showRemainingPlayers() {
+        Console.displayMessage("Remaining Players: ");
         for (Player player : turnOrder) {
             Console.displayMessage(String.format("[Player: %s | DiceRemaining: %s] \t", player.name, player.cup.dice.size()));
         }
         Console.displayMessage("\n\n");
-    }
+    }//5
 
     private void showCurrentBid() {
+        Cup temp = new Cup(1);
+
         Console.displayMessage(String.format("%nCurrent bid is: die[%s], frequency[%s]%n",
-                playerCurrentBid.currentBid.faceUpValue, playerCurrentBid.currentBid.frequency));
-    }
-
-    private void removeDieCurrentBid(Player currentPlayer) {
-        if (!playerCurrentBid.canRemoveDie()) {
-            playerList.remove(playerCurrentBid);
-            turnOrder.remove(playerCurrentBid);
-            Console.displayMessage(String.format("%n---- %s called %s's bluff and was right ! %s was removed from the game ----", currentPlayer.name, playerCurrentBid.name, playerCurrentBid.name));
-            Console.displayMessage(String.format("%nThe last bid was die: %s | frequency %s",
-                    playerCurrentBid.currentBid.faceUpValue, playerCurrentBid.currentBid.frequency));
-        } else {
-            playerCurrentBid.removeDie();
-            reOrderTurnList(playerCurrentBid);
-            displayTurnOrder();
-            Console.displayMessage(String.format("%n---- %s called %s's bluff and was right ! %s loses a die -----", currentPlayer.name, playerCurrentBid.name, playerCurrentBid.name));
-            Console.displayMessage(String.format("%nThe last bid was die: %s | frequency %s",
-                    playerCurrentBid.currentBid.faceUpValue, playerCurrentBid.currentBid.frequency));
-        }
-
-    }
+                temp.buildDiceVisual(new int[]{currentBid.faceUpValue}), currentBid.frequency));
+    }//5
 }
